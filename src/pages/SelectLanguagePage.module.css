@@ -1,0 +1,19 @@
+.mainContainer {
+    max-width: 500px;
+    margin-inline: auto;
+}
+
+.mainContainer h1 {
+    text-align: center;
+}
+
+.mainContainer > p {
+    text-align: center;
+}
+
+.mainContainer > ul {
+    padding-inline: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
