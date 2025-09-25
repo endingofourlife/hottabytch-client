@@ -1,9 +1,18 @@
 import type {ProgrammingLanguage} from "../interfaces/ProgrammingLanguage.ts";
 import classes from './LanguageItem.module.css';
 
-function LanguageItem({language}: {language: ProgrammingLanguage}) {
+interface LanguageItemProps {
+    language: ProgrammingLanguage;
+    onSelect: (languageId: number) => void;
+}
+
+function LanguageItem({language, onSelect}: LanguageItemProps) {
+    function handleLanguageSelect(){
+        onSelect(language.id);
+    }
+
     return (
-        <li className={classes.itemContainer}>
+        <li className={classes.itemContainer} onClick={handleLanguageSelect}>
             <svg fill="#000000" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                  width="800px" height="800px" viewBox="0 0 256 249">
             <path d="M47.522,170.287l11.172,76.681h138.612l11.172-76.681H47.522z M128,215.249c-5.748,0-10.407-3.063-10.407-6.84

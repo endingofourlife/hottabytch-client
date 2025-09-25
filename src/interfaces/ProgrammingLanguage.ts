@@ -9,4 +9,5 @@ export interface ProgrammingLanguage {
     description: string;
     popularity: number;
     level: "Beginner" | "Intermediate" | "Advanced";
+    picture: string;
 }

@@ -3,6 +3,7 @@ import {HashRouter, Route, Routes} from "react-router-dom";
 import { initDataState } from '@telegram-apps/sdk-react';
 import {UserProvider} from "./providers/UserProvider.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 function App() {
     const stateData = initDataState();
@@ -17,8 +18,16 @@ function App() {
       <UserProvider>
         <HashRouter>
             <Routes>
-                <Route path={'/'} element={<SelectLanguagePage />}/>
-                <Route path={'/profile'} element={<ProfilePage />}/>
+                <Route path={'/'} element={
+                    <ProtectedRoute requireLanguage={true}>
+                        <ProfilePage />
+                    </ProtectedRoute>
+                }/>
+                <Route path={'/select-language'} element={
+                    <ProtectedRoute requireLanguage={false}>
+                        <SelectLanguagePage/>
+                    </ProtectedRoute>
+                }/>
             </Routes>
 
         </HashRouter>

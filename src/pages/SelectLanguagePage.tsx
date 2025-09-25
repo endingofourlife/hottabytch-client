@@ -3,54 +3,26 @@ import LanguageItem from "../components/LanguageItem.tsx";
 import starIcon from '../../public/images/star.svg';
 import styles from './SelectLanguagePage.module.css';
 import {useUser} from "../providers/UserProvider.tsx";
+import {useEffect, useState} from "react";
+import {fetchAvailableLanguages} from "../api/languagesApi.ts";
+import {changeProgrammingLanguage} from "../api/userApi.ts";
 
 function SelectLanguagePage() {
-    const programmingLanguages: ProgrammingLanguage[] = [
-        {
-            id: 1,
-            name: "JavaScript",
-            popularity: 95,
-            level: "Beginner",
-            description: "Perfect for web development"
-        },
-        {
-            id: 2,
-            name: "Python",
-            popularity: 90,
-            level: "Beginner",
-            description: "Great for data science & AI",
-        },
-        {
-            id: 3,
-            name: "Java",
-            popularity: 85,
-            level: "Intermediate",
-            description: "Enterprise & Android apps",
-        },
-        {
-            id: 4,
-            name: "TypeScript",
-            popularity: 80,
-            level: "Intermediate",
-            description: "JavaScript with superpowers",
-        },
-        {
-            id: 5,
-            name: "C++",
-            popularity: 75,
-            level: "Advanced",
-            description: "System programming & games",
-        },
-        {
-            id: 6,
-            name: "Go",
-            popularity: 70,
-            level: "Intermediate",
-            description: "Fast & efficient backend",
-        }
-    ];
+    const [availableLanguages, setAvailableLanguages] = useState<ProgrammingLanguage[]>([]);
 
     const {user, isLoading} = useUser();
+
+    useEffect(() => {
+        async function fetchLanguages(){
+            const response = await fetchAvailableLanguages();
+            setAvailableLanguages(response);
+        }
+        fetchLanguages();
+    }, []);
+
+    async function handleLanguageSelect(languageId: number) {
+        const response = await changeProgrammingLanguage(user?.user_id || 0, languageId);
+    }
 
     if (isLoading) {
         return <b>Loading...</b>;
@@ -61,8 +33,8 @@ function SelectLanguagePage() {
             <h1>Choose your language</h1>
             <p>Select a programming language to start your coding journey</p>
             <ul>
-                {programmingLanguages.map(language => (
-                    <LanguageItem language={language} key={language.id} />
+                {availableLanguages.map(language => (
+                    <LanguageItem language={language} key={language.id} onSelect={handleLanguageSelect} />
                 ))}
             </ul>
             <p>
