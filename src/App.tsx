@@ -35,6 +35,7 @@ function App() {
                         <ExamPage />
                     </ProtectedRoute>
                 }/>
+                {/* <Route element={<ExamProviderWrapper/>}>  Here should be 'Exam Page'  </Route>   */}
             </Routes>
             <Footer />
         </HashRouter>

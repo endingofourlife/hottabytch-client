@@ -6,11 +6,13 @@ import {fetchUserData} from "../api/userApi.ts";
 interface UserContextType {
     isLoading: boolean;
     user: User | null;
+    changeProgrammingLanguage: (languageId: number, name: string) => void;
 }
 
 const UserContext = createContext<UserContextType>({
     isLoading: true,
-    user: null
+    user: null,
+    changeProgrammingLanguage: () => {}
 });
 
 export function useUser (): UserContextType {
@@ -27,6 +29,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } catch (e) {
             console.error('Could not determine timezone, defaulting to Europe/Kyiv', e);
             return 'Europe/Kyiv';
+        }
+    }
+
+    function changeProgrammingLanguage(languageId: number, name: string){
+        if (user) {
+            setUser({...user, active_language: {language_id: languageId, name: name}});
         }
     }
 
@@ -59,7 +67,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     return (
-        <UserContext.Provider value={{ isLoading, user }}>
+        <UserContext.Provider value={{ isLoading, user, changeProgrammingLanguage }}>
             {children}
         </UserContext.Provider>
     );
