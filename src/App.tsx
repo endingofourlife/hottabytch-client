@@ -28,6 +28,7 @@ function App() {
                         <SelectLanguagePage/>
                     </ProtectedRoute>
                 }/>
+                {/* <Route element={<ExamProviderWrapper/>}>  Here should be 'Exam Page'  </Route>   */}
             </Routes>
 
         </HashRouter>

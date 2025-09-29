@@ -22,6 +22,7 @@ function SelectLanguagePage() {
 
     async function handleLanguageSelect(languageId: number) {
         const response = await changeProgrammingLanguage(user?.user_id || 0, languageId);
+        console.log('Language changed response: ', response);
     }
 
     if (isLoading) {
