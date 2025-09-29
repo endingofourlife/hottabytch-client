@@ -4,6 +4,8 @@ import { initDataState } from '@telegram-apps/sdk-react';
 import {UserProvider} from "./providers/UserProvider.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import Footer from "./components/Footer.tsx";
+import ExamPage from "./pages/ExamPage.tsx";
 
 function App() {
     const stateData = initDataState();
@@ -28,8 +30,13 @@ function App() {
                         <SelectLanguagePage/>
                     </ProtectedRoute>
                 }/>
+                <Route path={'/start-exam'} element={
+                    <ProtectedRoute>
+                        <ExamPage />
+                    </ProtectedRoute>
+                }/>
             </Routes>
-
+            <Footer />
         </HashRouter>
       </UserProvider>
   )

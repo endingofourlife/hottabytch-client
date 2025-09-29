@@ -6,9 +6,11 @@ import {useUser} from "../providers/UserProvider.tsx";
 import {useEffect, useState} from "react";
 import {fetchAvailableLanguages} from "../api/languagesApi.ts";
 import {changeProgrammingLanguage} from "../api/userApi.ts";
+import {useNavigate} from "react-router-dom";
 
 function SelectLanguagePage() {
     const [availableLanguages, setAvailableLanguages] = useState<ProgrammingLanguage[]>([]);
+    const navigate = useNavigate();
 
     const {user, isLoading} = useUser();
 
@@ -22,6 +24,11 @@ function SelectLanguagePage() {
 
     async function handleLanguageSelect(languageId: number) {
         const response = await changeProgrammingLanguage(user?.user_id || 0, languageId);
+        if (response){
+            navigate("/");
+        } else {
+            alert('Error changing language');
+        }
     }
 
     if (isLoading) {
