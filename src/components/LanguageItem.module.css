@@ -1,69 +1,79 @@
-.itemContainer {
+.languageContainer {
     display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-template-rows: repeat(3, auto);
-    grid-template-areas:
-        "icon name"
-        "icon description"
-        "icon progress";
-    row-gap: 6px;
-    list-style: none;
-    border: 1px solid rgba(157, 157, 157, 0.5);
-    border-radius: 12px;
-    padding-block: 14px;
-    background-color: rgba(121, 137, 199, 0.25);
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: repeat(2, auto);
+    grid-template-areas: "logo title level"
+                         "logo description description";
+
+    border: 1px solid var(--primary-stroke-color);
+    background-color: var(--primary-background-color);
+    border-radius: 14px;
+    padding-inline: 12px;
+    padding-block: 18px;
+    width: 100%;
+}
+.languageContainer:hover {
+    border: 1px solid var(--primary-light-color);
+    transition: border .3s ease-in-out;
+
+    em {
+        border: 1px solid var(--primary-light-color);
+        transition: border .9s ease-in-out;
+    }
 }
 
-.itemContainer > svg {
-    grid-area: icon;
+
+.languageContainer img {
+    grid-area: logo;
+    max-width: 40px;
+    align-self: center;
+    border-radius: 8px;
+    margin-inline-end: 10px;
+}
+
+.languageContainer h3 {
+    grid-area: title;
+    margin: 0;
+    justify-self: left;
+
+    font-family: var(--poppins-font), sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: white;
+}
+
+.languageContainer em {
+    grid-area: level;
     align-self: center;
     justify-self: center;
-    width: 50px;
-    height: 50px;
-}
 
-.itemContainer h3 {
-    grid-area: name;
-    margin: 0;
-    color: white;
-    display: flex;
-    align-items: center;
-}
-
-.itemContainer em {
-    margin-inline-start: 12px;
-    background-color: rgba(23, 138, 71, 0.71);
-    color: rgb(29, 224, 19);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 14px;
+    font-family: var(--inter-font), sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #E5E3E3;
+    /*background-color: #1D5938;*/
+    border-radius: 26px;
+    border: 1px solid #353535;
+    padding: 4px 10px;
     font-style: normal;
-    border-radius: 12px;
-    padding-inline: 12px;
 }
-.itemContainer p:first-of-type {
+
+.languageContainer p {
     grid-area: description;
     margin: 0;
+    max-width: 85%;
+
+    font-family: var(--roboto-font), sans-serif;
+    font-size: 14px;
+    color: #808080;
+    text-align: left;
 }
 
-.itemContainer p:last-of-type {
-    grid-area: progress;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0;
-}
+/*special classes*/
+.selectedLanguage {
+    border: 1px solid var(--primary-light-color);
 
-.itemContainer p svg {
-    width: 20px;
-    height: 20px;
-    fill: #c9a812;
+    em {
+        border: 1px solid var(--primary-light-color);
+    }
 }
-
-.itemContainer progress {
-    height: 8px;
-    border-radius: 12px;
-    border: none;
-    background: rgba(248, 248, 248, 0.14);
-
-}
-progress::-moz-progress-bar { background: #c9a812; }

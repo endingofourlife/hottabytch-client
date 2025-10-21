@@ -7,5 +7,6 @@ export interface User {
     xp: number,
     active_language: ProgrammingLanguageBase | null,
     timezone: string,
-    is_streak: boolean
+    is_streak: boolean,
+    pictureUrl: string
 }

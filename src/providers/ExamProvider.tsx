@@ -8,6 +8,7 @@ interface ExamContextType {
     questions: Question[];
     startExam: (userId: number, examId: number) => void;
     onAnswerQuestion: (question_id: number, answer_id: number) => Promise<boolean>;
+    reorderQuestions: (newQuestions: Question[]) => void;
 }
 
 const ExamContext = createContext<ExamContextType | null>(null);
@@ -28,7 +29,11 @@ export function ExamProvider({children} : {children: ReactNode}): ReactNode {
         return await checkAnswerRequest(sessionId, question_id, answer_id);
     }
 
-    return <ExamContext.Provider value={{sessionId, questions, startExam, onAnswerQuestion}}>
+    function reorderQuestions(newQuestions: Question[]) {
+        setQuestions(newQuestions);
+    }
+
+    return <ExamContext.Provider value={{sessionId, questions, startExam, onAnswerQuestion, reorderQuestions}}>
         {children}
     </ExamContext.Provider>;
 }

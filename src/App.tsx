@@ -4,7 +4,7 @@ import { initDataState } from '@telegram-apps/sdk-react';
 import {UserProvider} from "./providers/UserProvider.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
-import Footer from "./components/Footer.tsx";
+import {ExamProvider} from "./providers/ExamProvider.tsx";
 import ExamPage from "./pages/ExamPage.tsx";
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
 
   return (
       <UserProvider>
+          <ExamProvider>
         <HashRouter>
             <Routes>
                 <Route path={'/'} element={
@@ -30,15 +31,15 @@ function App() {
                         <SelectLanguagePage/>
                     </ProtectedRoute>
                 }/>
-                <Route path={'/start-exam'} element={
+                <Route path={'/exam'} element={
                     <ProtectedRoute>
                         <ExamPage />
                     </ProtectedRoute>
                 }/>
                 {/* <Route element={<ExamProviderWrapper/>}>  Here should be 'Exam Page'  </Route>   */}
             </Routes>
-            <Footer />
         </HashRouter>
+          </ExamProvider>
       </UserProvider>
   )
 }

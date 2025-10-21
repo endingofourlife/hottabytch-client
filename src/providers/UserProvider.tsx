@@ -7,12 +7,14 @@ interface UserContextType {
     isLoading: boolean;
     user: User | null;
     changeProgrammingLanguage: (languageId: number, name: string) => void;
+    updateStreakXP: (earnedXP: number) => void;
 }
 
 const UserContext = createContext<UserContextType>({
     isLoading: true,
     user: null,
-    changeProgrammingLanguage: () => {}
+    changeProgrammingLanguage: () => {},
+    updateStreakXP: () => {},
 });
 
 export function useUser (): UserContextType {
@@ -35,6 +37,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     function changeProgrammingLanguage(languageId: number, name: string){
         if (user) {
             setUser({...user, active_language: {language_id: languageId, name: name}});
+        }
+    }
+
+    function updateStreakXP(earnedXP: number){
+        if (user) {
+            setUser({...user, xp: user.xp + earnedXP, is_streak: true, streak: user.streak + 1});
         }
     }
 
@@ -67,7 +75,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     return (
-        <UserContext.Provider value={{ isLoading, user, changeProgrammingLanguage }}>
+        <UserContext.Provider value={{ isLoading, user, changeProgrammingLanguage, updateStreakXP }}>
             {children}
         </UserContext.Provider>
     );

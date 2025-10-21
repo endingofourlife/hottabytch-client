@@ -1,0 +1,24 @@
+.itemContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*gap: 4px;*/
+    background-color: var(--primary-background-color);
+    border-radius: 10px;
+    border: 1px solid var(--primary-stroke-color);
+    padding-block: 15px;
+
+    h3 {
+        font-family: var(--source-code-pro-font), monospace;
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        margin: 0;
+    }
+    p {
+        font-family: var(--roboto-font), sans-serif;
+        font-size: 14px;
+        color: #747577;
+        margin: 0;
+    }
+}

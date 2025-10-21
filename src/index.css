@@ -1,8 +1,23 @@
+:root {
+    --roboto-font: "Roboto";
+    --inconsolata-font: "Inconsolata", monospace;
+    --inter-font: "Inter";
+    --poppins-font: "Poppins";
+    --ibm-plex-mono-font: "IBM Plex Mono", monospace;
+    --source-code-pro-font: "Source Code Pro", monospace;
+
+    --primary-light-color: #3EE0CF;
+    --primary-stroke-color: #242428;
+    --primary-background-color: #0F0F13;
+
+    --secondary-color: #747577;
+}
+
 body {
-    /*background-color: #3656bd;*/
-    color: #ffffff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(90deg, rgba(0, 0, 0, 1.000) 0.000%, rgba(7, 10, 13, 1.000) 50.000%, rgba(0, 0, 0, 1.000) 100.000%);
+    margin: 0;
+    margin-block-start: 32px;
+    background: #09090B;
+    font-family: var(--inter-font), sans-serif;
 }
 
 

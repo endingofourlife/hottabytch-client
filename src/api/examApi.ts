@@ -2,7 +2,7 @@ import type {Question} from "../interfaces/Question.ts";
 import {baseApi} from "./baseApi.ts";
 
 export interface ExamResponse {
-    lesson_id: number;
+    exam_id: number;
     title: string;
     description: string;
 }
@@ -17,29 +17,48 @@ export interface CheckAnswerResponse {
     is_correct: boolean;
 }
 
-export async function getActualExam(userId: number): Promise<ExamResponse> {
-    const { data } = await baseApi.get<ExamResponse>(
-        `/lessons/actual-lesson/${userId}`
-    );
-    return data;
+interface ExamResultsResponse {
+    xp_earned: number;
+    success_percent: number;
 }
 
-export async function startExamRequest(userId: number, lessonId: number | undefined): Promise<StartExamResponse> {
+export async function getActualExam(userId: number | undefined): Promise<ExamResponse | null> {
+    if (!userId) {
+        console.error("User ID is missing");
+        return null;
+    }
+    try {
+        const { data } = await baseApi.get<ExamResponse>(
+            `/exams/actual-exam/${userId}`
+        );
+        return data;
+    } catch (error) {
+        console.error("Error fetching actual exam:", error);
+        return null;
+    }
+}
+
+export async function startExamRequest(userId: number, examId: number | undefined): Promise<StartExamResponse> {
     const { data } = await baseApi.post<StartExamResponse>(
-        `/lessons/start`,
+        `/exams/start`,
         {
             user_id: userId,
-            lesson_id: lessonId,
+            exam_id: examId,
         }
     );
     return data;
 }
 
 export async function checkAnswerRequest(session_id: string, question_id: number, answer_id: number): Promise<boolean> {
-    const { data } = await baseApi.post<CheckAnswerResponse>("/lessons/check", {
+    const { data } = await baseApi.post<CheckAnswerResponse>("/exams/check", {
         session_id: session_id,
         question_id: question_id,
         answer_id: answer_id
     });
     return data.is_correct;
+}
+
+export async function getExamResults(session_id: string): Promise<ExamResultsResponse> {
+    const {data} = await baseApi.get(`/exams/result/${session_id}`);
+    return data;
 }

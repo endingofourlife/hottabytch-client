@@ -1,29 +1,37 @@
 import type {ProgrammingLanguage} from "../interfaces/ProgrammingLanguage.ts";
-import LanguageItem from "../components/LanguageItem.tsx";
-import starIcon from '../../public/images/star.svg';
 import styles from './SelectLanguagePage.module.css';
 import {useUser} from "../providers/UserProvider.tsx";
 import {useEffect, useState} from "react";
 import {fetchAvailableLanguages} from "../api/languagesApi.ts";
 import {changeProgrammingLanguage} from "../api/userApi.ts";
 import {useNavigate} from "react-router-dom";
+import LanguageItem from "../components/LanguageItem.tsx";
+import ComputerIcon from '../../public/computer-icon.svg';
 
 function SelectLanguagePage() {
     const [availableLanguages, setAvailableLanguages] = useState<ProgrammingLanguage[]>([]);
     const navigate = useNavigate();
 
     const {user, isLoading} = useUser();
+    const [selectedLanguage, setSelectedLanguage] = useState({
+        name: "JavaScript",
+        languageId: 1
+    });
 
     useEffect(() => {
         async function fetchLanguages(){
             const response = await fetchAvailableLanguages();
             setAvailableLanguages(response);
+            setSelectedLanguage({name: response[0].name, languageId: response[0].id});
         }
         fetchLanguages();
     }, []);
 
-    async function handleLanguageSelect(languageId: number) {
-        const response = await changeProgrammingLanguage(user?.user_id || 0, languageId);
+    function handleLanguageSelect(languageId: number, languageName: string) {
+        setSelectedLanguage({name: languageName, languageId});
+    }
+    async function handleContinue() {
+        const response = await changeProgrammingLanguage(user?.user_id || 0, selectedLanguage.languageId);
         if (response){
             navigate("/");
         } else {
@@ -37,19 +45,46 @@ function SelectLanguagePage() {
 
     return (
         <main className={styles.mainContainer}>
-            <h1>Choose your language</h1>
-            <p>Select a programming language to start your coding journey</p>
-            <ul>
-                {availableLanguages.map(language => (
-                    <LanguageItem language={language} key={language.id} onSelect={handleLanguageSelect} />
-                ))}
-            </ul>
-            <p>
-                <img src={starIcon} alt="star icon" width="20px" height="20px"/>
-                <strong>
-                    The most popular for beginners: JavaScript & Python
-                </strong>
-            </p>
+            <section className={styles.whatContainer}>
+                <h2>
+                    What is this mini-app for?
+                </h2>
+                <article className={styles.prosContainer}>
+                    <p>
+                        Take tests and check your programming knowledge right in telegram:
+                    </p>
+                    <ul className={styles.prosList}>
+                        <li>
+                            ./all popular programming languages
+                        </li>
+                        <li>
+                            ./open source and free to use
+                        </li>
+                        <li>
+                            ./instant result
+                        </li>
+                        <li>
+                            ./efficient learning
+                        </li>
+                    </ul>
+                </article>
+            </section>
+
+            <section className={styles.languagesContainer}>
+                <h2>
+                    <img src={ComputerIcon} alt="terminal-icon"/>
+                    Choose language & take tests!
+                </h2>
+                <ul>
+                    {availableLanguages.map(item => (
+                        <LanguageItem language={item} onSelect={handleLanguageSelect} selected={selectedLanguage.languageId} />
+                    ))}
+                </ul>
+            </section>
+
+            <button className={styles.continueButton} onClick={handleContinue}>
+                Continue with {selectedLanguage.name}
+            </button>
         </main>
     );
 }
