@@ -8,6 +8,8 @@
     border: 1px solid var(--primary-stroke-color);
     padding-block: 15px;
 
+    transition: all 0.3s ease;
+
     h3 {
         font-family: var(--source-code-pro-font), monospace;
         font-size: 20px;
@@ -15,10 +17,17 @@
         color: white;
         margin: 0;
     }
+
     p {
         font-family: var(--roboto-font), sans-serif;
         font-size: 14px;
         color: #747577;
         margin: 0;
+    }
+
+    &:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        border-color: var(--primary-light-color);
     }
 }

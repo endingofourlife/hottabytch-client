@@ -3,7 +3,7 @@ import styles from './SelectLanguagePage.module.css';
 import {useUser} from "../providers/UserProvider.tsx";
 import {useEffect, useState} from "react";
 import {fetchAvailableLanguages} from "../api/languagesApi.ts";
-import {changeProgrammingLanguage} from "../api/userApi.ts";
+import {patchProgrammingLanguage} from "../api/userApi.ts";
 import {useNavigate} from "react-router-dom";
 import LanguageItem from "../components/LanguageItem.tsx";
 import ComputerIcon from '../../public/computer-icon.svg';
@@ -12,7 +12,7 @@ function SelectLanguagePage() {
     const [availableLanguages, setAvailableLanguages] = useState<ProgrammingLanguage[]>([]);
     const navigate = useNavigate();
 
-    const {user, isLoading} = useUser();
+    const {user, isLoading, changeProgrammingLanguage} = useUser();
     const [selectedLanguage, setSelectedLanguage] = useState({
         name: "JavaScript",
         languageId: 1
@@ -31,8 +31,9 @@ function SelectLanguagePage() {
         setSelectedLanguage({name: languageName, languageId});
     }
     async function handleContinue() {
-        const response = await changeProgrammingLanguage(user?.user_id || 0, selectedLanguage.languageId);
+        const response = await patchProgrammingLanguage(user?.user_id || 0, selectedLanguage.languageId);
         if (response){
+            changeProgrammingLanguage(selectedLanguage.languageId, selectedLanguage.name);
             navigate("/");
         } else {
             alert('Error changing language');

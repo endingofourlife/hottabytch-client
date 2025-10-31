@@ -2,17 +2,16 @@ import {useUser} from "../providers/UserProvider.tsx";
 import ProfileIcon from '../../public/profile-icon.jpg';
 import SettingsIcon from '../../public/settings-icon.svg';
 import FireIcon from '../../public/fire-icon.svg';
-import StarIcon from '../../public/star-icon.svg';
-import HappyGhostIcon from '../../public/happy-ghost-icon.svg';
-import SadGhostIcon from '../../public/sad-ghost-icon.svg';
 import classes from './ProfilePage.module.css';
 import {useNavigate} from "react-router-dom";
-import ExamRulesModal from "../components/ExamRulesModal.tsx";
-import {useState} from "react";
-import {type ExamResponse, getActualExam} from "../api/examApi.ts";
+// import {useState} from "react";
+// import {type ExamResponse, getActualExam} from "../api/examApi.ts";
 import StatisticsItem from "../components/StatisticsItem.tsx";
 import accuracyIcon from '../../public/accuracy-icon.svg';
 import examIcon from '../../public/exam-icon.svg';
+import ExamRulesModal from "../components/ExamRulesModal.tsx";
+import {type ExamResponse, getActualExam} from "../api/examApi.ts";
+import {useState} from "react";
 
 function ProfilePage() {
     const navigate = useNavigate();
@@ -93,31 +92,16 @@ function ProfilePage() {
                 <img src={FireIcon} alt="fire-icon"/>
                 <h2>Daily Quiz</h2>
                 <p>Streak dying? Take a test!</p>
-                <button>Start</button>
+                <button onClick={handleShowExamRules}>Start</button>
             </article>
-
-
-            {/*<article className={classes.examContainer}>*/}
-            {/*    <div>*/}
-            {/*        <img src={user?.is_streak ? HappyGhostIcon : SadGhostIcon} alt="ghost-icon"/>*/}
-            {/*    </div>*/}
-            {/*    <h2>Today's Exam</h2>*/}
-            {/*    <p>Take a test or your streak will die!</p>*/}
-            {/*    {user?.is_streak ? (*/}
-            {/*        <button onClick={handleShowExamRules} disabled>Done!</button>*/}
-            {/*    ): (*/}
-            {/*        <button onClick={handleShowExamRules}>Start</button>*/}
-            {/*    )}*/}
-            {/*</article>*/}
-            {/*{actualExam && (*/}
-            {/*    <ExamRulesModal*/}
-            {/*        title={actualExam.title}*/}
-            {/*        description={actualExam.description}*/}
-            {/*        examId={actualExam.exam_id}*/}
-            {/*        userId={user?.user_id}*/}
-            {/*        onClose={handleCloseExamRules}*/}
-            {/*        isOpen={isModalOpen}/>*/}
-            {/*)}*/}
+            {actualExam && (
+                <ExamRulesModal
+                    title={actualExam.title}
+                    examId={actualExam.exam_id}
+                    userId={user?.user_id}
+                    onClose={handleCloseExamRules}
+                    isOpen={isModalOpen}/>
+            )}
         </main>
     );
 }

@@ -5,9 +5,12 @@ import QuestionItem from "../components/QuestionItem.tsx";
 import {getExamResults} from "../api/examApi.ts";
 import {useState} from "react";
 import FinishExamModal from "../components/FinishExamModal.tsx";
+import clockIcon from '../../public/clock-icon.svg';
+import exitIcon from '../../public/exit-icon.svg';
+import styles from './ExamPage.module.css';
 
 function ExamPage() {
-    const {questions, onAnswerQuestion, reorderQuestions, sessionId} = useExam();
+    const {questions, onAnswerQuestion, reorderQuestions, sessionId, actualExamName} = useExam();
     const {user, updateStreakXP} = useUser();
     const [examResults, setExamResults] = useState<{xpEarned: number, successPercent: number} | null>(null);
 
@@ -69,16 +72,23 @@ function ExamPage() {
     }
 
     return (
-        <main>
-            <section>
-                <h3>{user?.active_language?.name}</h3>
-                <time id="exam-timer" dateTime="PT15M30S">30:00</time>
+        <main className={styles.mainContainer}>
+            <header className={styles.headerContainer}>
+                <h2>{user?.active_language?.name}</h2>
+                <h3>{actualExamName}</h3>
+                <button>
+                    <img src={exitIcon} alt="exit-icon"/>
+                </button>
+                <time id="exam-timer" dateTime="PT15M30S">
+                    <img src={clockIcon} alt="clock-icon"/>
+                    30:00
+                </time>
                 <progress value={0} max={questions.length}>
                     0/{questions.length}
                 </progress>
-            </section>
+            </header>
 
-            <section>
+            <section className={styles.questionContainer}>
                 {questions.length > 0 && (
                     <QuestionItem question={questions[0]} onClickAnswer={handleAnswerQuestion} />
                 )}

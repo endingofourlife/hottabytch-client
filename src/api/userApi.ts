@@ -20,7 +20,7 @@ interface ChangeProgrammingLanguageResponse {
     success: boolean;
 }
 
-export async function changeProgrammingLanguage(userId: number, selectedLanguageId: number): Promise<boolean> {
+export async function patchProgrammingLanguage(userId: number, selectedLanguageId: number): Promise<boolean> {
     const {data} = await baseApi.patch<ChangeProgrammingLanguageResponse>(`/user/${userId}/change-language`, {
         'language_id': selectedLanguageId
     });

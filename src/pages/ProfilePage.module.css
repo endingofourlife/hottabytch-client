@@ -65,6 +65,13 @@
 .settingsIcon {
     width: 2rem;
     height: 2rem;
+
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: scale(1.05);
+        filter: drop-shadow(0 2px 8px rgba(59, 130, 246, 0.3));
+    }
 }
 
 /* progress section */
@@ -84,8 +91,15 @@
     padding-block-start: 22px;
     padding-block-end: 14px;
     margin-block-start: 30px;
-}
 
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        border-color: var(--primary-light-color);
+    }
+}
 .progressContainer dl {
     grid-area: numbers;
 
@@ -204,6 +218,14 @@
     background-color: var(--primary-background-color);
     padding-block: 30px;
     padding-inline: 16px;
+
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        border-color: var(--primary-light-color);
+    }
 }
 .quizContainer img {
     grid-area: icon;

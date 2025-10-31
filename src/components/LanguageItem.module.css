@@ -11,14 +11,18 @@
     padding-inline: 12px;
     padding-block: 18px;
     width: 100%;
-}
-.languageContainer:hover {
-    border: 1px solid var(--primary-light-color);
-    transition: border .3s ease-in-out;
 
-    em {
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
         border: 1px solid var(--primary-light-color);
-        transition: border .9s ease-in-out;
+
+        em {
+            border: 1px solid var(--primary-light-color);
+            transition: all 0.3s ease;
+        }
     }
 }
 

@@ -9,6 +9,8 @@ interface ExamContextType {
     startExam: (userId: number, examId: number) => void;
     onAnswerQuestion: (question_id: number, answer_id: number) => Promise<boolean>;
     reorderQuestions: (newQuestions: Question[]) => void;
+    setActualExamName: (name: string) => void;
+    actualExamName: string;
 }
 
 const ExamContext = createContext<ExamContextType | null>(null);
@@ -16,6 +18,7 @@ const ExamContext = createContext<ExamContextType | null>(null);
 export function ExamProvider({children} : {children: ReactNode}): ReactNode {
     const [sessionId, setSessionId] = useState<string>("");
     const [questions, setQuestions] = useState<Question[]>([]);
+    const [actualExamName, setActualExamName] = useState<string>('');
 
     async function startExam(userId: number, examId: number) {
         const {session_id, questions} = await startExamRequest(userId, examId);
@@ -33,7 +36,14 @@ export function ExamProvider({children} : {children: ReactNode}): ReactNode {
         setQuestions(newQuestions);
     }
 
-    return <ExamContext.Provider value={{sessionId, questions, startExam, onAnswerQuestion, reorderQuestions}}>
+    return <ExamContext.Provider
+        value={{sessionId,
+            questions,
+            startExam,
+            onAnswerQuestion,
+            reorderQuestions,
+            actualExamName,
+            setActualExamName}}>
         {children}
     </ExamContext.Provider>;
 }
