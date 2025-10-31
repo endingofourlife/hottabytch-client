@@ -11,6 +11,7 @@
 }
 
 .modal {
+    overflow-y: auto;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -22,6 +23,7 @@
     padding-block: 8px;
     border-radius: 12px;
     border: 1px solid var(--primary-stroke-color);
+    background-color: var(--primary-background-color);
     display: flex;
     flex-direction: column;
 
@@ -38,6 +40,7 @@
         color: white;
         font-size: 20px;
         font-weight: bold;
+        text-decoration: underline;
         text-align: center;
         margin: 0;
         margin-block-end: 1rem;
@@ -47,6 +50,7 @@
         display: flex;
         flex-direction: column;
         font-size: 20px;
+        gap: 12px;
         font-family: var(--inter-font), sans-serif;
         color: white;
         margin: 0;
@@ -66,7 +70,8 @@
         align-items: center;
 
         button:first-of-type {
-            width: 50%;
+            width: 80%;
+            max-width: 600px;
             padding-block: 8px;
             border: 0;
             border-radius: 24px;
@@ -87,7 +92,8 @@
         }
         button:last-of-type {
             padding-block: 12px;
-            width: 50%;
+            width: 80%;
+            max-width: 600px;
             border: 0;
             border-radius: 24px;
             background: none;
