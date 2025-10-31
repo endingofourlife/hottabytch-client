@@ -56,31 +56,48 @@
 .circle {
     margin-block: 40px;
     align-self: center;
-
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    border: 6px solid var(--primary-light-color);
-    background: none;
+    background: conic-gradient(
+            var(--primary-light-color) 0 var(--progress, 0%),
+            var(--primary-stroke-color) var(--progress, 0%) 360deg
+    );
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: background 4s ease-out;
 
-    h4 {
-        margin: 0;
-        color: white;
-        font-family: var(--source-code-pro-font), monospace;
-        font-size: 36px;
-        font-weight: 500;
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 6px;
+        border-radius: 50%;
+        background: var(--primary-background-color);
     }
-    p {
-        margin: 0;
-        color: white;
-        font-family: var(--roboto-font), sans-serif;
-        font-size: 20px;
-        font-weight: 500;
-    }
+}
+
+.circle h4 {
+    margin: 0;
+    color: white;
+    font-family: var(--source-code-pro-font), monospace;
+    font-size: 36px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+}
+
+.circle p {
+    margin: 0;
+    color: white;
+    font-family: var(--roboto-font), sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
 }
 
 .resultsContainer {

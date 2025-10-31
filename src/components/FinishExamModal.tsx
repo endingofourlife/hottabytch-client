@@ -1,4 +1,4 @@
-import type {FormEvent} from "react";
+import {type FormEvent, useRef, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import styles from './FinishExamModal.module.css';
 import lightIcon from '../../public/lightIcon.svg';
@@ -15,6 +15,33 @@ interface FinishExamModalProps {
 function FinishExamModal({xpEarned, successPercent}: FinishExamModalProps) {
     const navigation = useNavigate();
 
+    const circleRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        let frameId: number;
+        const startTime = Date.now();
+        const duration = 2000;
+
+        function animate() {
+            const elapsed = Date.now() - startTime;
+            const t = Math.min(elapsed / duration, 1);
+            const easedT = 1 - Math.pow(1 - t, 3); // ease-out cubic: fast start, slow end
+            const progress = easedT * successPercent;
+
+            if (circleRef.current) {
+                circleRef.current.style.setProperty('--progress', `${Math.round(progress)}%`);
+            }
+
+            if (elapsed < duration) {
+                frameId = requestAnimationFrame(animate);
+            }
+        }
+
+        frameId = requestAnimationFrame(animate);
+
+        return () => cancelAnimationFrame(frameId);
+    }, [successPercent]);
+
     function handleClose(e: FormEvent){
         e.preventDefault();
         navigation('/');
@@ -26,7 +53,7 @@ function FinishExamModal({xpEarned, successPercent}: FinishExamModalProps) {
                 <section className={styles.keepPracticing}>
                     <h3>Keep Practicing!</h3>
                     <p>Exam completed!</p>
-                     <div className={styles.circle}>
+                    <div ref={circleRef} className={styles.circle}>
                          <h4>{successPercent}%</h4>
                          <p>Accuracy</p>
                      </div>
