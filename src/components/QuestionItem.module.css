@@ -1,6 +1,5 @@
 .itemContainer {
     background-color: var(--primary-background-color);
-
     padding-inline: 16px;
 }
 
@@ -24,14 +23,11 @@
 
 .answerContainer li {
     list-style-type: none;
-    border: 2px solid var(--primary-stroke-color);
-    border-radius: 10px;
 }
 
 .answerBtn {
     width: 100%;
     background: none;
-    border: none;
     text-align: left;
     padding-inline: 12px;
     padding-block: 14px;
@@ -40,4 +36,36 @@
     font-size: 16px;
     font-weight: 400;
     color: #FFFFFF;
+    border: 2px solid var(--primary-stroke-color);
+    border-radius: 10px;
+}
+
+.correctAnswer {
+    border: 2px solid #199F08;
+    background-color: #112D1E;
+}
+
+.wrongAnswer {
+    border: 2px solid #CF1A1A;
+    background-color: #3D1A1D;
+}
+
+.continueButton {
+    background: var(--primary-light-color);
+    font-size: 16px;
+    font-family: var(--inter-font), sans-serif;
+    font-weight: 600;
+    color: #1D1D1D;
+    border: none;
+    border-radius: 10px;
+    padding-block: 10px;
+    width: 100%;
+    margin-block-end: 16px;
+
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: scale(1.05);
+        filter: drop-shadow(0 2px 8px rgba(59, 130, 246, 0.3));
+    }
 }

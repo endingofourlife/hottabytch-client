@@ -14,6 +14,9 @@ function ExamPage() {
     const {user, updateStreakXP} = useUser();
     const [examResults, setExamResults] = useState<{xpEarned: number, successPercent: number} | null>(null);
 
+    const [isQuestionCorrect, setIsQuestionCorrect] = useState<boolean | undefined>(undefined);
+    const [selectedAnswerId, setSelectedAnswerId] = useState<number | null>(null);
+
     /**
      * Update the order of questions based on whether the answer was correct.
      * if correct, remove the question from the list.
@@ -44,15 +47,27 @@ function ExamPage() {
         }
         try {
             const isCorrect = await onAnswerQuestion(question_id, answer_id);
-            const newQuestionsOrder = updateQuestionsOrder(isCorrect);
-            reorderQuestions(newQuestionsOrder);
-
-            if (newQuestionsOrder.length === 0) {
-                console.info("All questions answered. Exam completed.");
-                await finishExam();
-            }
+            setSelectedAnswerId(answer_id);
+            console.log(isCorrect)
+            setIsQuestionCorrect(isCorrect);
         } catch (error) {
             console.error("Error answering question:", error);
+        }
+    }
+
+    async function handleNextQuestion(){
+        if (isQuestionCorrect === undefined) {
+            console.error("No answer has been provided yet.");
+            return;
+        }
+        const newQuestionsOrder = updateQuestionsOrder(isQuestionCorrect);
+        setIsQuestionCorrect(undefined);
+        setSelectedAnswerId(null);
+        reorderQuestions(newQuestionsOrder);
+
+        if (newQuestionsOrder.length === 0) {
+            console.info("All questions answered. Exam completed.");
+            await finishExam();
         }
     }
 
@@ -90,7 +105,12 @@ function ExamPage() {
 
             <section className={styles.questionContainer}>
                 {questions.length > 0 && (
-                    <QuestionItem question={questions[0]} onClickAnswer={handleAnswerQuestion} />
+                    <QuestionItem question={questions[0]}
+                                  onClickAnswer={handleAnswerQuestion}
+                                  onNextQuestion={handleNextQuestion}
+                                  isCorrect={isQuestionCorrect}
+                                  selectedAnswerId={selectedAnswerId}
+                    />
                 )}
             </section>
 

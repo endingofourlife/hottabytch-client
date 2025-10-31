@@ -61,7 +61,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     initData?.user?.id || 0,
                     initData?.user?.first_name || '',
                     initData?.hash || '',
-                    getUserTimezone()
+                    getUserTimezone(),
+                    initData?.user?.photo_url || ''
                 );
                 setUser(user);
             } catch (error) {

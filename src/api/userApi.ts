@@ -5,13 +5,14 @@ interface FetchUserResponse {
     user: User;
 }
 
-export async function fetchUserData(userId: number, firstName: string, hash: string, timezone: string): Promise<User>{
-    console.log('Fetching user data for userId:', userId, 'firstName:', firstName, 'timezone:', timezone);
+export async function fetchUserData(userId: number, firstName: string, hash: string, timezone: string, pictureUrl: string): Promise<User>{
+    console.log('Fetching user data for userId:', userId, 'firstName:', firstName, 'timezone:', timezone, 'pictureUrl:', pictureUrl);
     const {data} = await baseApi.post<FetchUserResponse>('/user/auth', {
         user_id: userId,
         first_name: firstName,
         timezone: timezone,
-        hash: hash
+        hash: hash,
+        picture_url: pictureUrl
     });
     return data.user;
 }

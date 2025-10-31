@@ -1,5 +1,5 @@
 import {useUser} from "../providers/UserProvider.tsx";
-import ProfileIcon from '../../public/profile-icon.jpg';
+import ProfileAnonymousIcon from '../../public/profile-anonymous-icon.jpg';
 import SettingsIcon from '../../public/settings-icon.svg';
 import FireIcon from '../../public/fire-icon.svg';
 import classes from './ProfilePage.module.css';
@@ -53,7 +53,7 @@ function ProfilePage() {
     return (
         <main className={classes.mainContainer}>
             <header className={classes.headerContainer}>
-                <img src={ProfileIcon} alt="profile-icon"/>
+                <img src={user?.pictureUrl ? user.pictureUrl : ProfileAnonymousIcon} alt="profile-icon"/>
                 <h2>{user?.first_name}</h2>
                 <ul>
                     <li>Level {level}</li>
@@ -82,18 +82,20 @@ function ProfilePage() {
                 </progress>
             </section>
 
-            <section className={classes.statsContainer}>
-                {stats.map(item => (
-                    <StatisticsItem pictureUrl={item.pictureUrL} title={item.title} value={item.value}/>
-                ))}
-            </section>
-
             <article className={classes.quizContainer}>
                 <img src={FireIcon} alt="fire-icon"/>
                 <h2>Daily Quiz</h2>
                 <p>Streak dying? Take a test!</p>
                 <button onClick={handleShowExamRules}>Start</button>
             </article>
+
+            <section className={classes.statsContainer}>
+                {stats.map(item => (
+                    <StatisticsItem pictureUrl={item.pictureUrL} title={item.title} value={item.value}/>
+                ))}
+            </section>
+
+
             {actualExam && (
                 <ExamRulesModal
                     title={actualExam.title}
