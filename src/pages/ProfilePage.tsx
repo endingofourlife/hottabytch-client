@@ -21,6 +21,7 @@ function ProfilePage() {
     const level = Math.floor(user?.xp ? user.xp / 100 : 0);
     const newLevel = level + 1;
     const xpForNewLevel = newLevel * 100;
+    const progressPercent = ((user?.xp ?? 0) / xpForNewLevel) * 100;
 
     // TEST DATA
     const stats = [
@@ -77,9 +78,15 @@ function ProfilePage() {
                 </dl>
                 <h2>Progress to <em>Level {newLevel}</em></h2>
                 <p>{user?.xp}/{xpForNewLevel}</p>
-                <progress value={user?.xp} max={xpForNewLevel} className={classes.progressBar}>
-                    {Math.floor((user?.xp ?? 0) / xpForNewLevel * 100)}%
-                </progress>
+                {/*<progress value={user?.xp} max={xpForNewLevel} className={classes.progressBar}>*/}
+                {/*    {Math.floor((user?.xp ?? 0) / xpForNewLevel * 100)}%*/}
+                {/*</progress>*/}
+                <div className={classes.progressTrack}>
+                    <div
+                        className={classes.progressFill}
+                        style={{ width: `${progressPercent}%` }}
+                    />
+                </div>
             </section>
 
             <article className={classes.quizContainer}>
