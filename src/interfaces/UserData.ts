@@ -8,5 +8,5 @@ export interface User {
     active_language: ProgrammingLanguageBase | null,
     timezone: string,
     is_streak: boolean,
-    pictureUrl: string
+    pictureUrl: string,
 }

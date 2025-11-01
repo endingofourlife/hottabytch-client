@@ -174,15 +174,13 @@
     border-radius: 12px;
     overflow: hidden;
     margin-block-start: 8px;
-        position: relative;
+    position: relative;
     }
 
 .progressFill {
     height: 100%;
     background-color: var(--primary-light-color, #00ff88);
     border-radius: 12px;
-    transition: width 0.3s ease;
-    width: 0;
 }
 
 /* statistics section */

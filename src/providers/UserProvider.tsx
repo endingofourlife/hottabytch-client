@@ -2,6 +2,7 @@ import {initDataState} from "@telegram-apps/sdk-react";
 import {createContext, useContext, useEffect, useState} from "react";
 import type {User} from "../interfaces/UserData.ts";
 import {fetchUserData} from "../api/userApi.ts";
+import defaultProgrammerIcon from '../../public/default-programmer-icon.png';
 
 interface UserContextType {
     isLoading: boolean;
@@ -61,10 +62,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     initData?.user?.id || 0,
                     initData?.user?.first_name || '',
                     initData?.hash || '',
-                    getUserTimezone(),
-                    initData?.user?.photo_url || ''
+                    getUserTimezone()
                 );
-                setUser(user);
+                setUser({...user, pictureUrl: initData?.user?.photo_url || defaultProgrammerIcon});
             } catch (error) {
                 console.error('Failed to fetch user data:', error);
             } finally {
