@@ -10,7 +10,7 @@ interface LanguageItemProps {
 
 function LanguageItem({language, onSelect, selected}: LanguageItemProps) {
     function handleLanguageSelect(){
-        onSelect(language.id, language.name);
+        onSelect(language.language_id, language.name);
     }
     let levelClass = classes.beginnerLevel;
     if (language.level.toLowerCase() === 'intermediate') {
@@ -22,7 +22,7 @@ function LanguageItem({language, onSelect, selected}: LanguageItemProps) {
     return (
         <li className={classes.itemContainer}>
             <button
-                className={`${classes.languageContainer} ${selected === language.id ? classes.selectedLanguage : ''}`}
+                className={`${classes.languageContainer} ${selected === language.language_id ? classes.selectedLanguage : ''}`}
                 onClick={handleLanguageSelect}
                 aria-label={`Select ${language.name} language`}
             >

@@ -22,7 +22,7 @@ function SelectLanguagePage() {
         async function fetchLanguages(){
             const response = await fetchAvailableLanguages();
             setAvailableLanguages(response);
-            setSelectedLanguage({name: response[0].name, languageId: response[0].id});
+            setSelectedLanguage({name: response[0].name, languageId: response[0].language_id});
         }
         fetchLanguages();
     }, []);
@@ -78,7 +78,7 @@ function SelectLanguagePage() {
                 </h2>
                 <ul>
                     {availableLanguages.map(item => (
-                        <LanguageItem language={item} onSelect={handleLanguageSelect} selected={selectedLanguage.languageId} />
+                        <LanguageItem key={item.language_id} language={item} onSelect={handleLanguageSelect} selected={selectedLanguage.languageId} />
                     ))}
                 </ul>
             </section>

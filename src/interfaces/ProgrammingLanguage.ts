@@ -4,10 +4,9 @@ export interface ProgrammingLanguageBase {
 }
 
 export interface ProgrammingLanguage {
-    id: number;
+    language_id: number;
     name: string;
     description: string;
-    popularity: number;
     level: "Beginner" | "Intermediate" | "Advanced";
     picture: string;
 }

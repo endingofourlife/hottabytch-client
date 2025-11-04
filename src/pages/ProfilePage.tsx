@@ -97,7 +97,7 @@ function ProfilePage() {
 
             <section className={classes.statsContainer}>
                 {stats.map(item => (
-                    <StatisticsItem pictureUrl={item.pictureUrL} title={item.title} value={item.value}/>
+                    <StatisticsItem key={item.title} pictureUrl={item.pictureUrL} title={item.title} value={item.value}/>
                 ))}
             </section>
 
