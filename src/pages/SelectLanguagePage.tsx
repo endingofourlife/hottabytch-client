@@ -12,7 +12,7 @@ function SelectLanguagePage() {
     const [availableLanguages, setAvailableLanguages] = useState<ProgrammingLanguage[]>([]);
     const navigate = useNavigate();
 
-    const {user, isLoading, changeProgrammingLanguage} = useUser();
+    const {isLoading, changeProgrammingLanguage} = useUser();
     const [selectedLanguage, setSelectedLanguage] = useState({
         name: "JavaScript",
         languageId: 1
@@ -31,7 +31,7 @@ function SelectLanguagePage() {
         setSelectedLanguage({name: languageName, languageId});
     }
     async function handleContinue() {
-        const response = await patchProgrammingLanguage(user?.user_id || 0, selectedLanguage.languageId);
+        const response = await patchProgrammingLanguage(selectedLanguage.languageId);
         if (response){
             changeProgrammingLanguage(selectedLanguage.languageId, selectedLanguage.name);
             navigate("/");

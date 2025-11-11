@@ -10,9 +10,9 @@ import exitIcon from '../../public/exit-icon.svg';
 import styles from './ExamPage.module.css';
 
 function ExamPage() {
-    const {questions, onAnswerQuestion, reorderQuestions, sessionId, actualExamName} = useExam();
-    const {user, updateStreakXP} = useUser();
-    const [examResults, setExamResults] = useState<{xpEarned: number, successPercent: number} | null>(null);
+    const {questions, onAnswerQuestion, reorderQuestions, actualExamName, examId} = useExam();
+    const {user, updateUserStats} = useUser();
+    const [examResults, setExamResults] = useState<{xpEarned: number, successPercent: number, correctAnswers: number, wrongAnswers: number} | null>(null);
 
     const [isQuestionCorrect, setIsQuestionCorrect] = useState<boolean | undefined>(undefined);
     const [selectedAnswerId, setSelectedAnswerId] = useState<number | null>(null);
@@ -72,14 +72,14 @@ function ExamPage() {
     }
 
     async function finishExam(){
-        if (!sessionId) {
-            console.error("Session ID is missing. Cannot finish exam.");
+        if (!examId) {
+            console.error("Exam ID is missing. Something went wrong.");
             return;
         }
 
-        const {xp_earned, success_percent} = await getExamResults(sessionId);
-        updateStreakXP(xp_earned);
-        setExamResults({xpEarned: xp_earned, successPercent: success_percent});
+        const {xp_earned, correct_answers, wrong_answers, accuracy} = await getExamResults(examId);
+        updateUserStats(xp_earned, accuracy);
+        setExamResults({xpEarned: xp_earned, successPercent: accuracy, correctAnswers: correct_answers, wrongAnswers: wrong_answers});
     }
 
     if (questions.length === 0 && !examResults) {
@@ -115,7 +115,7 @@ function ExamPage() {
             </section>
 
             {examResults && (
-                <FinishExamModal xpEarned={examResults.xpEarned} successPercent={examResults.successPercent} />
+                <FinishExamModal xpEarned={examResults.xpEarned} successPercent={examResults.successPercent} correct={examResults.correctAnswers} wrong={examResults.wrongAnswers} />
             )}
         </main>
     );

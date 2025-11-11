@@ -9,10 +9,12 @@ import houseIcon from '../../public/homeIcon.png';
 interface FinishExamModalProps {
     xpEarned: number;
     successPercent: number;
+    correct: number;
+    wrong: number;
 }
 
 
-function FinishExamModal({xpEarned, successPercent}: FinishExamModalProps) {
+function FinishExamModal({xpEarned, successPercent, correct, wrong}: FinishExamModalProps) {
     const navigation = useNavigate();
 
     const circleRef = useRef<HTMLDivElement>(null);
@@ -66,13 +68,13 @@ function FinishExamModal({xpEarned, successPercent}: FinishExamModalProps) {
 
                         <article className={styles.resultItem}>
                             <img src={correctIcon} alt="correct-answers-icon"/>
-                            <h4>25</h4>
+                            <h4>{correct}</h4>
                             <p>Correct</p>
                         </article>
 
                         <article className={styles.resultItem}>
                             <img src={wrongIcon} alt="wrong-answers-icon"/>
-                            <h4>5</h4>
+                            <h4>{wrong}</h4>
                             <p>Wrong</p>
                         </article>
                     </div>

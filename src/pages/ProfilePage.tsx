@@ -3,14 +3,13 @@ import SettingsIcon from '../../public/settings-icon.svg';
 import FireIcon from '../../public/fire-icon.svg';
 import classes from './ProfilePage.module.css';
 import {useNavigate} from "react-router-dom";
-// import {useState} from "react";
-// import {type ExamResponse, getActualExam} from "../api/examApi.ts";
 import StatisticsItem from "../components/StatisticsItem.tsx";
 import accuracyIcon from '../../public/accuracy-icon.svg';
 import examIcon from '../../public/exam-icon.svg';
 import ExamRulesModal from "../components/ExamRulesModal.tsx";
-import {type ExamResponse, getActualExam} from "../api/examApi.ts";
+import {type ExamResponse} from "../api/examApi.ts";
 import {useState} from "react";
+import {getActualExam} from "../api/userApi.ts";
 
 function ProfilePage() {
     const navigate = useNavigate();
@@ -22,19 +21,17 @@ function ProfilePage() {
     const xpForNewLevel = newLevel * 100;
     const progressPercent = ((user?.xp ?? 0) / xpForNewLevel) * 100;
 
-    // TEST DATA
     const stats = [
-        {pictureUrL: accuracyIcon, title: 'Accuracy', value: '87%'},
-        {pictureUrL: examIcon, title: 'Exams Taken', value: 5},
+        {pictureUrL: accuracyIcon, title: 'Accuracy', value: `${user?.accuracy}%`},
+        {pictureUrL: examIcon, title: 'Exams Taken', value: `${user?.exams_taken}`},
     ]
-
 
     function handleChangeLanguage(){
         navigate('/select-language');
     }
 
     async function handleShowExamRules(){
-        const response = await getActualExam(user?.user_id);
+        const response = await getActualExam();
         if (response){
             setActualExam(response);
             setIsModalOpen(true);
@@ -106,7 +103,6 @@ function ProfilePage() {
                 <ExamRulesModal
                     title={actualExam.title}
                     examId={actualExam.exam_id}
-                    userId={user?.user_id}
                     onClose={handleCloseExamRules}
                     isOpen={isModalOpen}/>
             )}

@@ -10,20 +10,19 @@ interface ExamRulesModalProps{
     onClose: () => void;
 }
 
-function ExamRulesModal({title, examId, userId, onClose, isOpen = false} : ExamRulesModalProps) {
+function ExamRulesModal({title, examId, onClose, isOpen = false} : ExamRulesModalProps) {
     const {startExam, setActualExamName} = useExam();
     const navigate = useNavigate();
 
     function handleStartExam(event: React.FormEvent){
         event.preventDefault();
-        if (!userId || !examId) {
-            console.log(userId);
+        if (!examId) {
             console.log(examId);
-            console.error("User ID or Exam ID is missing");
+            console.error("Exam ID is missing");
             return;
         }
         setActualExamName(title);
-        startExam(userId, examId);
+        startExam(examId);
         navigate('/exam');
     }
 

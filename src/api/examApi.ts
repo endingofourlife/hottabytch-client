@@ -18,31 +18,16 @@ export interface CheckAnswerResponse {
 }
 
 interface ExamResultsResponse {
-    xp_earned: number;
-    success_percent: number;
+    accuracy: number,
+    xp_earned: number,
+    correct_answers: number,
+    wrong_answers: number
 }
 
-export async function getActualExam(userId: number | undefined): Promise<ExamResponse | null> {
-    if (!userId) {
-        console.error("User ID is missing");
-        return null;
-    }
-    try {
-        const { data } = await baseApi.get<ExamResponse>(
-            `/exams/actual-exam/${userId}`
-        );
-        return data;
-    } catch (error) {
-        console.error("Error fetching actual exam:", error);
-        return null;
-    }
-}
-
-export async function startExamRequest(userId: number, examId: number | undefined): Promise<StartExamResponse> {
+export async function startExamRequest(examId: number | undefined): Promise<StartExamResponse> {
     const { data } = await baseApi.post<StartExamResponse>(
         `/exams/start`,
         {
-            user_id: userId,
             exam_id: examId,
         }
     );
@@ -58,7 +43,7 @@ export async function checkAnswerRequest(session_id: string, question_id: number
     return data.is_correct;
 }
 
-export async function getExamResults(session_id: string): Promise<ExamResultsResponse> {
-    const {data} = await baseApi.get(`/exams/result/${session_id}`);
+export async function getExamResults(exam_id: number): Promise<ExamResultsResponse> {
+    const {data} = await baseApi.get(`/progress/finished/${exam_id}`);
     return data;
 }

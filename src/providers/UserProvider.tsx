@@ -8,14 +8,14 @@ interface UserContextType {
     isLoading: boolean;
     user: User | null;
     changeProgrammingLanguage: (languageId: number, name: string) => void;
-    updateStreakXP: (earnedXP: number) => void;
+    updateUserStats: (earnedXP: number, accuracy: number) => void;
 }
 
 const UserContext = createContext<UserContextType>({
     isLoading: true,
     user: null,
     changeProgrammingLanguage: () => {},
-    updateStreakXP: () => {},
+    updateUserStats: () => {},
 });
 
 export function useUser (): UserContextType {
@@ -41,9 +41,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }
 
-    function updateStreakXP(earnedXP: number){
+    function updateUserStats(earnedXP: number, accuracy: number){
         if (user) {
-            setUser({...user, xp: user.xp + earnedXP, is_streak: true, streak: user.streak + 1});
+            setUser({...user, xp: user.xp + earnedXP, is_streak: true, streak: user.streak + 1, exams_taken: user.exams_taken + 1, accuracy: accuracy});
         }
     }
 
@@ -76,7 +76,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     return (
-        <UserContext.Provider value={{ isLoading, user, changeProgrammingLanguage, updateStreakXP }}>
+        <UserContext.Provider value={{ isLoading, user, changeProgrammingLanguage, updateUserStats }}>
             {children}
         </UserContext.Provider>
     );
