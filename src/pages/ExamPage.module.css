@@ -57,11 +57,22 @@
     gap: 6px;
 }
 
-.headerContainer progress {
+.progressTrack {
     grid-area: progress;
+    height: 12px;
     width: 100%;
+    background-color: #2B2C30;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-block-start: 8px;
+    position: relative;
 }
 
+.progressFill {
+    height: 100%;
+    background-color: var(--primary-light-color, #00ff88);
+    border-radius: 12px;
+}
 
 /* question section */
 .questionContainer {
@@ -69,5 +80,5 @@
     border: 1px solid var(--primary-stroke-color);
     border-radius: 10px;
 
-    margin-block-start: 1rem;
+    margin-block-start: 1.5rem;
 }

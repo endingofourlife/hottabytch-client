@@ -3,19 +3,61 @@ import type {Question} from "../interfaces/Question.ts";
 import {useUser} from "../providers/UserProvider.tsx";
 import QuestionItem from "../components/QuestionItem.tsx";
 import {getExamResults} from "../api/examApi.ts";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import FinishExamModal from "../components/FinishExamModal.tsx";
 import clockIcon from '../../public/clock-icon.svg';
 import exitIcon from '../../public/exit-icon.svg';
 import styles from './ExamPage.module.css';
+import LoaderSpinner from "../components/LoaderSpinner.tsx";
 
+// Must be refactored. A lot of logic in a single component
 function ExamPage() {
+    const [isFinishing, setIsFinishing] = useState(false);
+    const [initialQuestionCount, setInitialQuestionCount] = useState(0);
     const {questions, onAnswerQuestion, reorderQuestions, actualExamName, examId} = useExam();
     const {user, updateUserStats} = useUser();
     const [examResults, setExamResults] = useState<{xpEarned: number, successPercent: number, correctAnswers: number, wrongAnswers: number} | null>(null);
 
     const [isQuestionCorrect, setIsQuestionCorrect] = useState<boolean | undefined>(undefined);
     const [selectedAnswerId, setSelectedAnswerId] = useState<number | null>(null);
+
+    const [timeLeft, setTimeLeft] = useState(30 * 60); // 30 minutes in seconds
+    const intervalRef = useRef<number | undefined>(undefined);
+
+    const answered = initialQuestionCount - questions.length;
+    const progressPercent = initialQuestionCount > 0 ? (answered / initialQuestionCount) * 100 : 0;
+
+    // timer effect
+    useEffect(() => {
+        intervalRef.current = setInterval(() => {
+            setTimeLeft((prev) => {
+                if (prev <= 1) {
+                    clearInterval(intervalRef.current!);
+                    // stop exam!!
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(intervalRef.current);
+    }, []);
+
+    // set initial question count
+    useEffect(() => {
+        if (questions.length > 0 && initialQuestionCount === 0) {
+            setInitialQuestionCount(questions.length);
+        }
+    }, [questions.length, initialQuestionCount]);
+
+    /**
+        * Format time in seconds to MM:SS format
+    */
+    const formatTime = (seconds: number) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
 
     /**
      * Update the order of questions based on whether the answer was correct.
@@ -67,7 +109,16 @@ function ExamPage() {
 
         if (newQuestionsOrder.length === 0) {
             console.info("All questions answered. Exam completed.");
-            await finishExam();
+            setIsFinishing(true);
+            try {
+                await finishExam();
+            } catch (e) {
+                console.error("Error finishing exam:", e);
+                alert('Shit happened. Try again later my friend :(')
+            } finally {
+                setIsFinishing(false);
+            }
+
         }
     }
 
@@ -82,8 +133,8 @@ function ExamPage() {
         setExamResults({xpEarned: xp_earned, successPercent: accuracy, correctAnswers: correct_answers, wrongAnswers: wrong_answers});
     }
 
-    if (questions.length === 0 && !examResults) {
-        return <b>Loading exam questions...</b>;
+    if (questions.length === 0 && !examResults || isFinishing) {
+        return <LoaderSpinner />;
     }
 
     return (
@@ -91,16 +142,19 @@ function ExamPage() {
             <header className={styles.headerContainer}>
                 <h2>{user?.active_language?.name}</h2>
                 <h3>{actualExamName}</h3>
-                <button>
+                <button onClick={() => {alert("No you can't =)")}}>
                     <img src={exitIcon} alt="exit-icon"/>
                 </button>
-                <time id="exam-timer" dateTime="PT15M30S">
+                <time id="exam-timer" dateTime={`PT${Math.floor(timeLeft / 60)}M${timeLeft % 60}S`}>
                     <img src={clockIcon} alt="clock-icon"/>
-                    30:00
+                    {formatTime(timeLeft)}
                 </time>
-                <progress value={0} max={questions.length}>
-                    0/{questions.length}
-                </progress>
+                {/*<progress value={0} max={questions.length}>*/}
+                {/*    0/{questions.length}*/}
+                {/*</progress>*/}
+                <div className={styles.progressTrack}>
+                    <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
+                </div>
             </header>
 
             <section className={styles.questionContainer}>

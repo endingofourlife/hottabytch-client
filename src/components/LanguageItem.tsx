@@ -26,7 +26,7 @@ function LanguageItem({language, onSelect, selected}: LanguageItemProps) {
                 onClick={handleLanguageSelect}
                 aria-label={`Select ${language.name} language`}
             >
-                <img src={language.picture} alt={`${language.name} icon`}/>
+                <img src={language.picture} alt={`${language.name} icon`} loading={"lazy"}/>
                 <h3>
                     {language.name}
                 </h3>

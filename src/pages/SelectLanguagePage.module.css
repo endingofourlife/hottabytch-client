@@ -128,5 +128,6 @@
     border: none;
     border-radius: 10px;
     padding-block: 10px;
+    margin-block-end: 12px;
     width: 100%;
 }

@@ -1,4 +1,3 @@
-import type {ProgrammingLanguage} from "../interfaces/ProgrammingLanguage.ts";
 import styles from './SelectLanguagePage.module.css';
 import {useUser} from "../providers/UserProvider.tsx";
 import {useEffect, useState} from "react";
@@ -7,29 +6,39 @@ import {patchProgrammingLanguage} from "../api/userApi.ts";
 import {useNavigate} from "react-router-dom";
 import LanguageItem from "../components/LanguageItem.tsx";
 import ComputerIcon from '../../public/computer-icon.svg';
+import {useQuery} from "@tanstack/react-query";
+import {HashLoader} from "react-spinners";
+
+interface SelectedLanguage {
+    name: string;
+    languageId: number;
+}
 
 function SelectLanguagePage() {
-    const [availableLanguages, setAvailableLanguages] = useState<ProgrammingLanguage[]>([]);
     const navigate = useNavigate();
 
-    const {isLoading, changeProgrammingLanguage} = useUser();
-    const [selectedLanguage, setSelectedLanguage] = useState({
-        name: "JavaScript",
+    const {isLoading: userLoading, changeProgrammingLanguage} = useUser();
+    const [selectedLanguage, setSelectedLanguage] = useState<SelectedLanguage>({
+        name: 'JavaScript',
         languageId: 1
     });
 
+    const {data: availableLanguages = [], isLoading: languagesLoading,  error} = useQuery({
+        queryKey: ['available-languages'],
+        queryFn: fetchAvailableLanguages,
+    });
+
+
     useEffect(() => {
-        async function fetchLanguages(){
-            const response = await fetchAvailableLanguages();
-            setAvailableLanguages(response);
-            setSelectedLanguage({name: response[0].name, languageId: response[0].language_id});
+        if (availableLanguages.length > 0) {
+            setSelectedLanguage({name: availableLanguages[0].name, languageId: availableLanguages[0].language_id});
         }
-        fetchLanguages();
-    }, []);
+    }, [availableLanguages]);
 
     function handleLanguageSelect(languageId: number, languageName: string) {
         setSelectedLanguage({name: languageName, languageId});
     }
+
     async function handleContinue() {
         const response = await patchProgrammingLanguage(selectedLanguage.languageId);
         if (response){
@@ -40,8 +49,11 @@ function SelectLanguagePage() {
         }
     }
 
-    if (isLoading) {
-        return <b>Loading...</b>;
+    if (userLoading || languagesLoading) {
+        return <HashLoader />;
+    }
+    if (error) {
+        return <div>Error loading languages. <strong>Try restart the app.</strong></div>;
     }
 
     return (

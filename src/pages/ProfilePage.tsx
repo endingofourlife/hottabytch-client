@@ -50,7 +50,7 @@ function ProfilePage() {
     return (
         <main className={classes.mainContainer}>
             <header className={classes.headerContainer}>
-                <img src={user?.pictureUrl} alt="profile-icon"/>
+                <img src={user?.pictureUrl} alt="profile-icon" loading={"lazy"}/>
                 <h2>{user?.first_name}</h2>
                 <ul>
                     <li>Level {level}</li>

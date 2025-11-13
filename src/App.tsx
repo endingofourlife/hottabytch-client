@@ -6,6 +6,7 @@ import ProfilePage from "./pages/ProfilePage.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import {ExamProvider} from "./providers/ExamProvider.tsx";
 import ExamPage from "./pages/ExamPage.tsx";
+import QueryProvider from "./providers/QueryProvider.tsx";
 
 function App() {
     const stateData = initDataState();
@@ -17,30 +18,31 @@ function App() {
     console.log(stateData);
 
   return (
-      <UserProvider>
-          <ExamProvider>
-        <HashRouter>
-            <Routes>
-                <Route path={'/'} element={
-                    <ProtectedRoute requireLanguage={true}>
-                        <ProfilePage />
-                    </ProtectedRoute>
-                }/>
-                <Route path={'/select-language'} element={
-                    <ProtectedRoute requireLanguage={false}>
-                        <SelectLanguagePage/>
-                    </ProtectedRoute>
-                }/>
-                <Route path={'/exam'} element={
-                    <ProtectedRoute>
-                        <ExamPage />
-                    </ProtectedRoute>
-                }/>
-                {/* <Route element={<ExamProviderWrapper/>}>  Here should be 'Exam Page'  </Route>   */}
-            </Routes>
-        </HashRouter>
-          </ExamProvider>
-      </UserProvider>
+      <QueryProvider>
+          <UserProvider>
+              <ExamProvider>
+                <HashRouter>
+                    <Routes>
+                        <Route path={'/'} element={
+                            <ProtectedRoute requireLanguage={true}>
+                                <ProfilePage />
+                            </ProtectedRoute>
+                        }/>
+                        <Route path={'/select-language'} element={
+                            <ProtectedRoute requireLanguage={false}>
+                                <SelectLanguagePage/>
+                            </ProtectedRoute>
+                        }/>
+                        <Route path={'/exam'} element={
+                            <ProtectedRoute>
+                                <ExamPage />
+                            </ProtectedRoute>
+                        }/>
+                    </Routes>
+                </HashRouter>
+              </ExamProvider>
+          </UserProvider>
+      </QueryProvider>
   )
 }
 
