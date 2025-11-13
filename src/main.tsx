@@ -6,7 +6,7 @@ import {StrictMode} from "react";
 import {init} from "./init.ts";
 
 // mock the environment
-// import './mockEnv.ts';
+import './mockEnv.ts';
 
 const root = createRoot(document.getElementById('root')!);
 

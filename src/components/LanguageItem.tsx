@@ -1,6 +1,8 @@
 import type {ProgrammingLanguage} from "../interfaces/ProgrammingLanguage.ts";
 import classes from './LanguageItem.module.css';
-
+import PythonIcon from '../../public/python-logo-icon.svg';
+import CSharpIcon from '../../public/Logo_C_sharp.svg';
+import JSIcon from '../../public/JavaScript-logo.png';
 
 interface LanguageItemProps {
     language: ProgrammingLanguage;
@@ -18,6 +20,12 @@ function LanguageItem({language, onSelect, selected}: LanguageItemProps) {
     } else if (language.level.toLowerCase() === 'advanced') {
         levelClass = classes.advancedLevel;
     }
+    const iconMap: Record<string, string> = {
+        "python": PythonIcon,
+        "javascript": JSIcon,
+        "c#": CSharpIcon,
+    };
+    const picture = iconMap[language.name.toLowerCase()] || language.picture;
 
     return (
         <li className={classes.itemContainer}>
@@ -26,7 +34,7 @@ function LanguageItem({language, onSelect, selected}: LanguageItemProps) {
                 onClick={handleLanguageSelect}
                 aria-label={`Select ${language.name} language`}
             >
-                <img src={language.picture} alt={`${language.name} icon`} loading={"lazy"}/>
+                <img src={picture} alt={`${language.name} icon`}/>
                 <h3>
                     {language.name}
                 </h3>
