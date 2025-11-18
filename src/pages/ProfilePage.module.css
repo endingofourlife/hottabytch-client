@@ -20,6 +20,8 @@
     justify-self: center;
     border-radius: 50%;
     object-fit: cover;
+    height: 50px;
+    width: 50px;
 }
 .headerContainer h2 {
     grid-area: name;
