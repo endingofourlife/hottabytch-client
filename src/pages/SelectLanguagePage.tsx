@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import LanguageItem from "../components/LanguageItem.tsx";
 import ComputerIcon from '../../public/computer-icon.svg';
 import {useQuery} from "@tanstack/react-query";
-import {HashLoader} from "react-spinners";
+import LoaderSpinner from "../components/LoaderSpinner.tsx";
 
 interface SelectedLanguage {
     name: string;
@@ -50,7 +50,7 @@ function SelectLanguagePage() {
     }
 
     if (userLoading || languagesLoading) {
-        return <HashLoader />;
+        return <LoaderSpinner />;
     }
     if (error) {
         return <div>Error loading languages. <strong>Try restart the app.</strong></div>;
