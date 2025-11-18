@@ -13,7 +13,7 @@
             "avatar name button"
             "avatar info button";
 }
-.headerContainer img {
+.headerContainer > img {
     grid-area: avatar;
     max-width: 50px;
     align-self: center;
