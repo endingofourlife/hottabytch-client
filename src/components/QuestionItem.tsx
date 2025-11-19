@@ -1,5 +1,6 @@
 import type {Question} from "../interfaces/Question.ts";
 import styles from './QuestionItem.module.css';
+import {separateCodeFromText} from "../shared/lib/separateCodeFromText.ts";
 
 interface QuestionItemProps {
     question: Question;
@@ -18,10 +19,16 @@ function QuestionItem({question, onClickAnswer, onNextQuestion, isCorrect, selec
     }
 
     const isAnswered = isCorrect !== undefined;
+    const { text, code } = separateCodeFromText(question.text);
 
     return (
         <article className={styles.itemContainer}>
-            <h4>{question.text}</h4>
+            <h4>{text}</h4>
+            {code && (
+                <pre>
+                    <code>{code}</code>
+                </pre>
+            )}
 
             <ul className={styles.answerContainer}>
                 {question.answers.map((answer) => (

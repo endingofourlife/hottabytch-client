@@ -9,7 +9,18 @@
     font-weight: 500;
     color: #FFFFFF;
     margin: 0;
-    padding-block: 16px;
+    padding-block-start: 16px;
+    margin-block-end: 16px;
+}
+
+.itemContainer pre {
+    font-size: 16px;
+    padding: 12px;
+    color: #abb2bf;
+    background-color: #09090B;
+    border-radius: 10px;
+    line-height: 1.4;
+    margin-block-start: 0;
 }
 
 .answerContainer {

@@ -26,7 +26,6 @@ function LanguageItem({language, onSelect, selected}: LanguageItemProps) {
         "c#": CSharpIcon,
     };
     const picture = iconMap[language.name.toLowerCase()] || language.picture;
-    console.log(picture);
     return (
         <li className={classes.itemContainer}>
             <button
