@@ -53,7 +53,7 @@ function SelectLanguagePage() {
         return <LoaderSpinner />;
     }
     if (error) {
-        return <div>Error loading languages. <strong>Try restart the app.</strong></div>;
+        return <div style={{color: "white"}}>Loading error. <strong>Try restart the app.</strong></div>;
     }
 
     return (

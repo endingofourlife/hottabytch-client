@@ -1,6 +1,7 @@
 import type {Question} from "../interfaces/Question.ts";
 import styles from './QuestionItem.module.css';
 import {separateCodeFromText} from "../shared/lib/separateCodeFromText.ts";
+import { memo } from 'react';
 
 interface QuestionItemProps {
     question: Question;
@@ -52,4 +53,4 @@ function QuestionItem({question, onClickAnswer, onNextQuestion, isCorrect, selec
     );
 }
 
-export default QuestionItem;
+export default memo(QuestionItem);
