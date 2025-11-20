@@ -26,6 +26,7 @@ function ExamPage() {
     const [selectedAnswerId, setSelectedAnswerId] = useState<number | null>(null);
 
     const [isQuitActive, setIsQuitActive] = useState(false);
+    const [isLoadingAnswer, setIsLoadingAnswer] = useState(false);
 
     // set initial question count
     useEffect(() => {
@@ -62,6 +63,7 @@ function ExamPage() {
             console.error("No questions available to answer.");
             return;
         }
+        setIsLoadingAnswer(true);
         try {
             const isCorrect = await onAnswerQuestion(question_id, answer_id);
             setSelectedAnswerId(answer_id);
@@ -69,6 +71,8 @@ function ExamPage() {
             setIsQuestionCorrect(isCorrect);
         } catch (error) {
             console.error("Error answering question:", error);
+        } finally {
+            setIsLoadingAnswer(false);
         }
     }
 
@@ -138,6 +142,7 @@ function ExamPage() {
                                   onNextQuestion={handleNextQuestion}
                                   isCorrect={isQuestionCorrect}
                                   selectedAnswerId={selectedAnswerId}
+                                  isLoading={isLoadingAnswer}
                     />
                 )}
             </section>

@@ -2,6 +2,7 @@ import type {Question} from "../interfaces/Question.ts";
 import styles from './QuestionItem.module.css';
 import {separateCodeFromText} from "../shared/lib/separateCodeFromText.ts";
 import { memo } from 'react';
+import {PulseLoader} from "react-spinners";
 
 interface QuestionItemProps {
     question: Question;
@@ -9,9 +10,12 @@ interface QuestionItemProps {
     onNextQuestion: () => void;
     isCorrect?: boolean;
     selectedAnswerId?: number | null;
+    isLoading?: boolean;
 }
 
-function QuestionItem({question, onClickAnswer, onNextQuestion, isCorrect, selectedAnswerId}: QuestionItemProps) {
+function QuestionItem({question, onClickAnswer, onNextQuestion, isCorrect, selectedAnswerId, isLoading}: QuestionItemProps) {
+    const isAnswered = isCorrect !== undefined || isLoading;
+
     function getAnswerClass(answerId: number): string {
         if (answerId === selectedAnswerId) {
             return isCorrect ? styles.correctAnswer : styles.wrongAnswer;
@@ -19,7 +23,6 @@ function QuestionItem({question, onClickAnswer, onNextQuestion, isCorrect, selec
         return '';
     }
 
-    const isAnswered = isCorrect !== undefined;
     const { text, code } = separateCodeFromText(question.text);
 
     return (
@@ -37,9 +40,9 @@ function QuestionItem({question, onClickAnswer, onNextQuestion, isCorrect, selec
                         <button
                             className={`${styles.answerBtn} ${getAnswerClass(answer.answer_id)}`}
                             onClick={() => onClickAnswer(question.question_id, answer.answer_id)}
-                            disabled={isAnswered}
+                            disabled={isAnswered || isLoading}
                         >
-                            {answer.answer_text}
+                            {isLoading && selectedAnswerId === answer.answer_id ? <PulseLoader size={8}/> : answer.answer_text}
                         </button>
                     </li>
                 ))}
