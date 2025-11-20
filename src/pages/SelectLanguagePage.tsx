@@ -8,6 +8,7 @@ import LanguageItem from "../components/LanguageItem.tsx";
 import ComputerIcon from '../../public/computer-icon.svg';
 import {useQuery} from "@tanstack/react-query";
 import LoaderSpinner from "../components/LoaderSpinner.tsx";
+import {PulseLoader} from "react-spinners";
 
 interface SelectedLanguage {
     name: string;
@@ -17,7 +18,8 @@ interface SelectedLanguage {
 function SelectLanguagePage() {
     const navigate = useNavigate();
 
-    const {isLoading: userLoading, changeProgrammingLanguage} = useUser();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const {isLoading: userLoading, changeProgrammingLanguage, user} = useUser();
     const [selectedLanguage, setSelectedLanguage] = useState<SelectedLanguage>({
         name: 'JavaScript',
         languageId: 1
@@ -40,13 +42,28 @@ function SelectLanguagePage() {
     }
 
     async function handleContinue() {
-        const response = await patchProgrammingLanguage(selectedLanguage.languageId);
-        if (response){
-            changeProgrammingLanguage(selectedLanguage.languageId, selectedLanguage.name);
-            navigate("/");
-        } else {
-            alert('Error changing language');
+        if (user?.active_language?.language_id === selectedLanguage.languageId){
+            navigate('/');
+            return;
         }
+
+        setIsSubmitting(true);
+        try {
+            const response = await patchProgrammingLanguage(selectedLanguage.languageId);
+            if (response){
+                changeProgrammingLanguage(selectedLanguage.languageId, selectedLanguage.name);
+                navigate("/");
+                return; // if there is no return - visual bugs with button text and spinner
+            } else {
+                alert('Error changing language');
+            }
+        } catch(err) {
+            console.log(err);
+            alert("Error changing language. Try restart the app.");
+        } finally {
+            setIsSubmitting(false);
+        }
+
     }
 
     if (userLoading || languagesLoading) {
@@ -95,8 +112,12 @@ function SelectLanguagePage() {
                 </ul>
             </section>
 
-            <button className={styles.continueButton} onClick={handleContinue}>
-                Continue with {selectedLanguage.name}
+            <button className={styles.continueButton} onClick={handleContinue} disabled={isSubmitting}>
+                {isSubmitting ? (
+                    <PulseLoader color={"white"} size={8}/>
+                ) : (
+                    `Continue with ${selectedLanguage.name}`
+                )}
             </button>
         </main>
     );

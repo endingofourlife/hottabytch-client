@@ -1,6 +1,8 @@
 import classes from './ExamRulesModal.module.css';
 import {useExam} from "../providers/ExamProvider.tsx";
 import {useNavigate} from "react-router-dom";
+import {useState} from "react";
+import {PulseLoader} from "react-spinners";
 
 interface ExamRulesModalProps{
     title: string;
@@ -13,17 +15,27 @@ interface ExamRulesModalProps{
 function ExamRulesModal({title, examId, onClose, isOpen = false} : ExamRulesModalProps) {
     const {startExam, setActualExamName} = useExam();
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    function handleStartExam(event: React.FormEvent){
+    async function handleStartExam(event: React.FormEvent){
         event.preventDefault();
+        setIsSubmitting(true);
         if (!examId) {
             console.log(examId);
             console.error("Exam ID is missing");
             return;
         }
-        setActualExamName(title);
-        startExam(examId);
-        navigate('/exam');
+        try {
+            setActualExamName(title);
+            await startExam(examId);
+            navigate('/exam');
+            return;
+        } catch(err){
+            console.error(err);
+            alert('Something went wrong');
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
     if (!title) {
@@ -45,7 +57,7 @@ function ExamRulesModal({title, examId, onClose, isOpen = false} : ExamRulesModa
 
                 <menu>
                     <button type={"submit"} onClick={handleStartExam}>
-                        Start
+                        {isSubmitting ? <PulseLoader color={"black"} size={8}/> : 'Start'}
                     </button>
                     <button type={"button"} formMethod={"dialog"} onClick={onClose}>
                         Cancel

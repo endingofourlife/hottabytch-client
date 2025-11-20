@@ -1,0 +1,90 @@
+.dialog {
+    border-radius: 16px;
+    padding: 28px 24px 24px;
+    max-width: 360px;
+    width: 90%;
+    background: #09090B;
+    color: white;
+    border: 1px solid var(--primary-stroke-color);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    animation: modalAppear 0.28s ease-out forwards;
+}
+
+.dialog::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+}
+
+
+.dialog h3 {
+    margin: 0 0 8px;
+    text-align: center;
+    font-family: var(--roboto-font), sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.dialog p {
+    margin: 0 0 32px;
+    text-align: center;
+    font-family: var(--inter-font), sans-serif;
+    font-size: 15px;
+    color: var(--secondary-color);
+    line-height: 1.45;
+    opacity: 0.9;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+
+.buttons button {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: var(--roboto-font), sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 48px;
+    border: none;
+}
+
+
+.cancel {
+    background: #2d2d2d;
+    color: #aaaaaa;
+}
+
+.cancel:hover {
+    background: #3a3a3a;
+    color: white;
+}
+
+.confirm {
+    background: #9a1b1b;
+    color: white;
+}
+
+.confirm:hover {
+    background: #d62828;
+}
+
+.confirm:active {
+    transform: scale(0.98);
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.94);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}

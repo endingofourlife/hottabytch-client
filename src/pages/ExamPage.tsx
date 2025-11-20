@@ -10,9 +10,12 @@ import styles from './ExamPage.module.css';
 import LoaderSpinner from "../components/LoaderSpinner.tsx";
 import ExamProgressBar from "../components/ExamProgressBar.tsx";
 import ExamTimer from "../components/ExamTimer.tsx";
+import ConfirmQuitModal from "../components/ConfirmQuitModal.tsx";
+import {useNavigate} from "react-router-dom";
 
 // Must be refactored. A lot of logic in a single component
 function ExamPage() {
+    const navigate = useNavigate();
     const [isFinishing, setIsFinishing] = useState(false);
     const [initialQuestionCount, setInitialQuestionCount] = useState(0);
     const {questions, onAnswerQuestion, reorderQuestions, actualExamName, examId} = useExam();
@@ -21,6 +24,8 @@ function ExamPage() {
 
     const [isQuestionCorrect, setIsQuestionCorrect] = useState<boolean | undefined>(undefined);
     const [selectedAnswerId, setSelectedAnswerId] = useState<number | null>(null);
+
+    const [isQuitActive, setIsQuitActive] = useState(false);
 
     // set initial question count
     useEffect(() => {
@@ -103,6 +108,13 @@ function ExamPage() {
         setExamResults({xpEarned: xp_earned, successPercent: accuracy, correctAnswers: correct_answers, wrongAnswers: wrong_answers});
     }
 
+
+    function handleQuitExam(){
+        // the progress won't be saved.
+        // TODO: Add API call in the future since now cache won't be cleared
+        setIsQuitActive(true);
+    }
+
     if (questions.length === 0 && !examResults || isFinishing) {
         return <LoaderSpinner />;
     }
@@ -112,7 +124,7 @@ function ExamPage() {
             <header className={styles.headerContainer}>
                 <h2>{user?.active_language?.name}</h2>
                 <h3>{actualExamName}</h3>
-                <button onClick={() => {alert("No you can't =)")}}>
+                <button onClick={handleQuitExam}>
                     <img src={exitIcon} alt="exit-icon"/>
                 </button>
                 <ExamTimer initialSeconds={30 * 60} />
@@ -133,6 +145,10 @@ function ExamPage() {
             {examResults && (
                 <FinishExamModal xpEarned={examResults.xpEarned} successPercent={examResults.successPercent} correct={examResults.correctAnswers} wrong={examResults.wrongAnswers} />
             )}
+
+            <ConfirmQuitModal isOpen={isQuitActive}
+                              onConfirm={() => {setIsQuitActive(false); navigate('/')}}
+                              onCancel={() => setIsQuitActive(false)}/>
         </main>
     );
 }

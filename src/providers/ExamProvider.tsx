@@ -5,7 +5,7 @@ import {Outlet} from "react-router-dom";
 
 interface ExamContextType {
     questions: Question[];
-    startExam: (examId: number) => void;
+    startExam: (examId: number) => Promise<void>;
     onAnswerQuestion: (question_id: number, answer_id: number) => Promise<boolean>;
     reorderQuestions: (newQuestions: Question[]) => void;
     setActualExamName: (name: string) => void;

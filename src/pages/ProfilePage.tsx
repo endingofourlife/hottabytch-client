@@ -10,10 +10,12 @@ import ExamRulesModal from "../components/ExamRulesModal.tsx";
 import {type ExamResponse} from "../api/examApi.ts";
 import {useState} from "react";
 import {getActualExam} from "../api/userApi.ts";
+import {PulseLoader} from "react-spinners";
 
 function ProfilePage() {
     const navigate = useNavigate();
     const { user, isLoading } = useUser();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [actualExam, setActualExam] = useState<ExamResponse | null>(null);
     const level = Math.floor(user?.xp ? user.xp / 100 : 0);
@@ -31,12 +33,20 @@ function ProfilePage() {
     }
 
     async function handleShowExamRules(){
-        const response = await getActualExam();
-        if (response){
-            setActualExam(response);
-            setIsModalOpen(true);
-        } else {
-            alert('No exam available at the moment. Please try again later.');
+        setIsSubmitting(true);
+        try {
+            const response = await getActualExam();
+            if (response){
+                setActualExam(response);
+                setIsModalOpen(true);
+                return;
+            } else {
+                alert('No exam available at the moment. Please try again later.');
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsSubmitting(false);
         }
     }
     function handleCloseExamRules(){
@@ -89,7 +99,9 @@ function ProfilePage() {
                 <img src={FireIcon} alt="fire-icon"/>
                 <h2>Daily Quiz</h2>
                 <p>Streak dying? Take a test!</p>
-                <button onClick={handleShowExamRules}>Start</button>
+                <button onClick={handleShowExamRules} disabled={isSubmitting}>
+                    {isSubmitting ? <PulseLoader color={"black"} size={8}/> : 'Start'}
+                </button>
             </article>
 
             <section className={classes.statsContainer}>
