@@ -43,7 +43,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     function updateUserStats(earnedXP: number, accuracy: number){
         if (user) {
-            setUser({...user, xp: user.xp + earnedXP, is_streak: true, streak: user.streak + 1, exams_taken: user.exams_taken + 1, accuracy: accuracy});
+            if (user.is_streak){
+                setUser({...user, xp: user.xp + earnedXP, is_streak: true, exams_taken: user.exams_taken + 1, accuracy: accuracy});
+            } else {
+                setUser({...user, xp: user.xp + earnedXP, is_streak: true, streak: user.streak + 1, exams_taken: user.exams_taken + 1, accuracy: accuracy});
+            }
         }
     }
 

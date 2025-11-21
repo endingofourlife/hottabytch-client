@@ -41,7 +41,7 @@ function ProfilePage() {
                 setIsModalOpen(true);
                 return;
             } else {
-                alert('No exam available at the moment. Please try again later.');
+                alert("Holy cow. You've done all exams 😱");
             }
         } catch (err) {
             console.error(err);
