@@ -11,6 +11,7 @@ import {type ExamResponse} from "../api/examApi.ts";
 import {useState} from "react";
 import {getActualExam} from "../api/userApi.ts";
 import {PulseLoader} from "react-spinners";
+import SmartestPreview from "../components/SmartestPreview.tsx";
 
 function ProfilePage() {
     const navigate = useNavigate();
@@ -84,9 +85,6 @@ function ProfilePage() {
                 </dl>
                 <h2>Progress to <em>Level {newLevel}</em></h2>
                 <p>{user?.xp}/{xpForNewLevel}</p>
-                {/*<progress value={user?.xp} max={xpForNewLevel} className={classes.progressBar}>*/}
-                {/*    {Math.floor((user?.xp ?? 0) / xpForNewLevel * 100)}%*/}
-                {/*</progress>*/}
                 <div className={classes.progressTrack}>
                     <div
                         className={classes.progressFill}
@@ -94,6 +92,8 @@ function ProfilePage() {
                     />
                 </div>
             </section>
+
+            <SmartestPreview />
 
             <article className={classes.quizContainer}>
                 <img src={FireIcon} alt="fire-icon"/>

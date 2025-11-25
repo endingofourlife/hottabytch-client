@@ -252,12 +252,11 @@
 
 .quizContainer button:hover {
     cursor: pointer;
-    background-color: color-mix(in srgb, var(--primary-light-color) 90%, black);  /* Чуть темнее на 10% — универсально */
-    transform: scale(1.02);  /* Лёгкий рост для тактильного фидбека на тел/ПК */
+    background-color: color-mix(in srgb, var(--primary-light-color) 90%, black);
+    transform: scale(1.02);
 
-    /* На ПК — добавь тень для глубины, на мобилке — минимально */
     @media (hover: hover) and (min-width: 768px) {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  /* Мягкая тень, не агрессивная */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 }
 
@@ -266,7 +265,7 @@
 
 
 
-@media screen and (max-width: 315px) {
+@media screen and (max-width: 330px) {
     .headerContainer img {
         max-width: 40px;
     }

@@ -1,0 +1,76 @@
+.smartestPreviewContainer {
+    margin-block-start: 18px;
+
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "face title arrow" "face online arrow";
+    border: 1px solid var(--primary-stroke-color);
+    background-color: var(--primary-background-color);
+    align-items: center;
+
+    min-height: 70px;
+    width: 100%;
+    border-radius: 10px;
+
+    padding: 0;
+    padding-block: 15px;
+
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        border-color: var(--primary-light-color);
+    }
+}
+
+.smartestPreviewContainer h2 {
+    grid-area: title;
+    font-family: var(--roboto-font), sans-serif;
+    font-size: 20px;
+    color: white;
+    margin: 0;
+    justify-self: start;
+    text-align: left;
+}
+.smartestPreviewContainer p {
+    grid-area: online;
+    font-family: var(--inter-font), sans-serif;
+    font-size: 14px;
+    color: #6B6B6B;
+    margin: 0;
+    justify-self: start;
+}
+.shockedFace {
+    grid-area: face;
+    justify-self: center;
+    margin-inline: 10px;
+}
+
+.arrow {
+    grid-area: arrow;
+    justify-self: center;
+    margin-inline: 10px;
+}
+
+.newIcon{
+    position: absolute;
+    top: -12px;
+    left: -18px;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+@media screen and (max-width: 330px) {
+    .smartestPreviewContainer {
+
+    }
+    .smartestPreviewContainer h2 {
+        font-size: 16px;
+    }
+    .smartestPreviewContainer p {
+        font-size: 12px;
+    }
+}
