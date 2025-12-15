@@ -1,33 +1,17 @@
 import {useUser} from "../providers/UserProvider.tsx";
-import SettingsIcon from '../../public/settings-icon.svg';
-import FireIcon from '../../public/fire-icon.svg';
 import classes from './ProfilePage.module.css';
 import {useNavigate} from "react-router-dom";
-import StatisticsItem from "../components/StatisticsItem.tsx";
-import accuracyIcon from '../../public/accuracy-icon.svg';
-import examIcon from '../../public/exam-icon.svg';
-import ExamRulesModal from "../components/ExamRulesModal.tsx";
-import {type ExamResponse} from "../api/examApi.ts";
-import {useState} from "react";
 import {getActualExam} from "../api/userApi.ts";
-import {PulseLoader} from "react-spinners";
-import SmartestPreview from "../components/SmartestPreview.tsx";
+import UserStatsCard from "../widgets/UserStatsCard/UserStatsCard.tsx";
+import DailyExamPreview from "../widgets/previews/DailyExamPreview.tsx";
+import StudyProgramPreview from "../widgets/previews/StudyProgramPreview.tsx";
+import RatingPreview from "../widgets/previews/RatingPreview.tsx";
+import MyProfilePreview from "../widgets/previews/MyProfilePreview.tsx";
+import ProfileHeader from "../widgets/headers/ProfileHeader.tsx";
 
 function ProfilePage() {
     const navigate = useNavigate();
-    const { user, isLoading } = useUser();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [actualExam, setActualExam] = useState<ExamResponse | null>(null);
-    const level = Math.floor(user?.xp ? user.xp / 100 : 0);
-    const newLevel = level + 1;
-    const xpForNewLevel = newLevel * 100;
-    const progressPercent = ((user?.xp ?? 0) / xpForNewLevel) * 100;
-
-    const stats = [
-        {pictureUrL: accuracyIcon, title: 'Accuracy', value: `${user?.accuracy}%`},
-        {pictureUrL: examIcon, title: 'Exams Taken', value: `${user?.exams_taken}`},
-    ]
+    const { isLoading } = useUser();
 
     function handleChangeLanguage(){
         navigate('/select-language');
@@ -60,64 +44,15 @@ function ProfilePage() {
 
     return (
         <main className={classes.mainContainer}>
-            <header className={classes.headerContainer}>
-                <img src={user?.pictureUrl} alt="profile-icon" loading={"eager"}/>
-                <h2>{user?.first_name}</h2>
-                <ul>
-                    <li>Level {level}</li>
-                    <li>{user?.active_language?.name}</li>
-                </ul>
-                <button onClick={handleChangeLanguage}>
-                    <img src={SettingsIcon} alt="settings-icon" className={classes.settingsIcon}/>
-                </button>
-            </header>
-
-            <section className={classes.progressContainer}>
-                <dl>
-                    <dt>Streak</dt>
-                    <dd>
-                        {user?.streak}
-                    </dd>
-                    <dt>Total XP</dt>
-                    <dd>
-                        {user?.xp}
-                    </dd>
-                </dl>
-                <h2>Progress to <em>Level {newLevel}</em></h2>
-                <p>{user?.xp}/{xpForNewLevel}</p>
-                <div className={classes.progressTrack}>
-                    <div
-                        className={classes.progressFill}
-                        style={{ width: `${progressPercent}%` }}
-                    />
-                </div>
-            </section>
-
-            <SmartestPreview />
-
-            <article className={classes.quizContainer}>
-                <img src={FireIcon} alt="fire-icon"/>
-                <h2>Daily Quiz</h2>
-                <p>Streak dying? Take a test!</p>
-                <button onClick={handleShowExamRules} disabled={isSubmitting}>
-                    {isSubmitting ? <PulseLoader color={"black"} size={8}/> : 'Start'}
-                </button>
-            </article>
-
-            <section className={classes.statsContainer}>
-                {stats.map(item => (
-                    <StatisticsItem key={item.title} pictureUrl={item.pictureUrL} title={item.title} value={item.value}/>
-                ))}
-            </section>
-
-
-            {actualExam && (
-                <ExamRulesModal
-                    title={actualExam.title}
-                    examId={actualExam.exam_id}
-                    onClose={handleCloseExamRules}
-                    isOpen={isModalOpen}/>
-            )}
+            <ProfileHeader />
+            <UserStatsCard />
+            {/* Previews - Navigation */}
+            <StudyProgramPreview />
+            <div className={classes.previewsGrid}>
+                <MyProfilePreview />
+                <RatingPreview />
+                <DailyExamPreview />
+            </div>
         </main>
     );
 }

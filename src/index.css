@@ -11,14 +11,51 @@
     --primary-background-color: #0F0F13;
 
     --secondary-color: #747577;
+
+    --primary-title-color: white;
+    --primary-description-color: #878787;
 }
 
 body {
     margin: 0;
-    margin-block-start: 32px;
+    margin-block: 32px;
     background: #09090B;
     font-family: var(--inter-font), sans-serif;
 }
 
+.baseCard {
+    border: solid 1px var(--primary-stroke-color);
+    border-radius: 10px;
+    background: var(--primary-background-color);
+    padding-inline: 16px;
+    padding-block: 14px;
+}
 
+.baseCard--hoverable {
+    transition: all 0.3s ease;
 
+    &:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        border-color: var(--primary-light-color);
+    }
+}
+
+.blockTitle {
+    font-family: var(--roboto-font), sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+    color: var(--primary-title-color);
+    margin: 0;
+}
+
+.blockTitle--sm {
+    font-size: 18px;
+}
+
+.blockDescription {
+    font-family: var(--inter-font), sans-serif;
+    font-size: 14px;
+    color: var(--primary-description-color);
+    margin: 0;
+}

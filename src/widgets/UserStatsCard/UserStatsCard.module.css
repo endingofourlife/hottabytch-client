@@ -1,0 +1,82 @@
+.progressContainer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas: "numbers numbers"
+                         "empty empty"
+                         "progressText progressXp"
+                         "progressBar progressBar";
+    background-color: var(--primary-background-color);
+    border-radius: 10px;
+    border: 1px solid var(--primary-stroke-color);
+    min-height: 150px;
+    padding-inline: 16px;
+    padding-block-start: 22px;
+    padding-block-end: 14px;
+}
+.progressContainer dl {
+    grid-area: numbers;
+
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: repeat(2, auto);
+    grid-template-areas: "streakText empty xpText"
+                         "streakNumber empty xpNumber";
+    margin: 0;
+
+    dt {
+        font-size: 16px;
+        color: var(--secondary-color);
+        font-family: var(--ibm-plex-mono-font), monospace;
+    }
+    dd {
+        font-size: 24px;
+        font-family: var(--source-code-pro-font), monospace;
+        color: white;
+        margin: 0;
+        justify-self: center;
+    }
+
+    dt:first-of-type {
+        grid-area: streakText;
+    }
+    dd:first-of-type {
+        grid-area: streakNumber;
+        color: var(--primary-light-color);
+    }
+
+    dt:last-of-type {
+        grid-area: xpText;
+    }
+    dd:last-of-type {
+        grid-area: xpNumber;
+    }
+}
+
+.progressContainer h2 {
+    grid-area: progressText;
+    font-family: var(--roboto-font), sans-serif;
+    font-size: 16px;
+    color: var(--secondary-color);
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+
+    em {
+        font-style: normal;
+        margin-inline-start: 4px;
+        color: var(--primary-light-color);
+    }
+}
+
+.progressContainer p {
+    grid-area: progressXp;
+    margin: 0;
+    justify-self: end;
+    font-family: var(--source-code-pro-font), monospace;
+    font-weight: 500;
+    font-size: 16px;
+    color: #C6C6C6;
+}
+

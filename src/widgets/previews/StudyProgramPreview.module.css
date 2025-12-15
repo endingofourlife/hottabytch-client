@@ -1,0 +1,30 @@
+.studyProgramContainer {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+                "icon title start"
+                "icon description start";
+    column-gap: 14px;
+}
+
+.studyProgramContainer > img {
+    grid-area: icon;
+    align-self: center;
+}
+
+.studyProgramContainer h3 {
+    grid-area: title;
+    font-weight: bold;
+    margin-block-end: 4px;
+}
+
+.studyProgramContainer p {
+    grid-area: description;
+}
+
+.studyProgramContainer button {
+    grid-area: start;
+    align-self: center;
+    background: none;
+    border: none;
+}

@@ -1,6 +1,6 @@
-import shockedFaceIcon from '../../public/smartest-icon/shocked-icon.svg';
+import shockedFaceIcon from '../../public/rating-icon/shocked-icon.svg';
 import newIcon from '../../public/new-icon.svg';
-import startArrowIcon from '../../public/smartest-icon/start-icon.svg';
+import startArrowIcon from '../../public/rating-icon/start-icon.svg';
 import styles from './SmartestPreview.module.css';
 
 function SmartestPreview() {

@@ -1,0 +1,19 @@
+.ratingPreviewContainer {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "icon title" "icon description";
+    column-gap: 8px;
+}
+
+.ratingPreviewContainer > img {
+    grid-area: icon;
+    align-self: center;
+}
+
+.ratingPreviewContainer h3 {
+    grid-area: title;
+}
+
+.ratingPreviewContainer p {
+    grid-area: description;
+}

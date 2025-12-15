@@ -7,6 +7,9 @@ import defaultProgrammerIcon from '../../public/default-programmer-icon.png';
 interface UserContextType {
     isLoading: boolean;
     user: User | null;
+    level: number;
+    newLevel: number;
+    xpForNextLevel: number;
     changeProgrammingLanguage: (languageId: number, name: string) => void;
     updateUserStats: (earnedXP: number, accuracy: number) => void;
 }
@@ -14,6 +17,9 @@ interface UserContextType {
 const UserContext = createContext<UserContextType>({
     isLoading: true,
     user: null,
+    level: 0,
+    newLevel: 1,
+    xpForNextLevel: 100,
     changeProgrammingLanguage: () => {},
     updateUserStats: () => {},
 });
@@ -25,6 +31,10 @@ export function useUser (): UserContextType {
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+
+    const level = Math.floor(user?.xp ? user.xp / 100 : 0);
+    const newLevel = level + 1;
+    const xpForNextLevel = newLevel * 100;
 
     function getUserTimezone(): string {
         try {
@@ -80,7 +90,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     return (
-        <UserContext.Provider value={{ isLoading, user, changeProgrammingLanguage, updateUserStats }}>
+        <UserContext.Provider value={{
+            isLoading,
+            user,
+            changeProgrammingLanguage,
+            updateUserStats,
+            level,
+            newLevel,
+            xpForNextLevel
+        }}>
             {children}
         </UserContext.Provider>
     );

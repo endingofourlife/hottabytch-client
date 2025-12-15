@@ -1,0 +1,22 @@
+.topPlayerContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.topPlayerContainer dl {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.top1Place {
+    background-color: #FFD365;
+}
+
+.top2Place {
+    background-color: #8389FD;
+}
+
+.top3Place {
+    background-color: #FD7E5D;
+}

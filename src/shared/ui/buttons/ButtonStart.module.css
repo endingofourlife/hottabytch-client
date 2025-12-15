@@ -1,0 +1,12 @@
+.buttonContainer {
+    background: var(--primary-light-color);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: white;
+    font-family: var(--poppins-font), sans-serif;
+    font-size: 16px;
+    gap: 4px;
+}
